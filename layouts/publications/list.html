@@ -1,0 +1,85 @@
+{{ define "main" }}
+<article class="page-content">
+    
+    <div class="content-layout stack-on-mobile">
+        <!-- Left column - Publication Types -->
+        <section class="publications-section">
+            {{ range .Sections }}
+        <section>
+            <header class="page-header">
+                <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
+                {{ with .Params.description }}
+                <h2>{{ . }}</h2>
+                {{ end }}
+            </header>
+            <div class="content-list">
+                {{ range .RegularPages.ByDate.Reverse }}
+                <a href="{{ .RelPermalink }}" class="content-item">
+                    {{ if .Params.cover_image }}
+                    <div class="content-item-image">
+                        <img src="/images/{{ .Params.cover_image }}" alt="Cover image for {{ .Title }}" />
+                    </div>
+                    {{ end }}
+                    <div class="content-item-content">
+                        <h4>{{ .Title }}</h4>
+                        <div class="content-meta">
+                            <div class="content-meta-line">
+                                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "2006" . }}</time>{{ end }}
+                            </div>
+                            {{ with .Params.journal }}<cite>{{ . }}</cite>{{ end }}
+                        </div>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </section>
+            {{ end }}
+        </section>
+        
+        <!-- Right column - Research Awards -->
+        <section class="awards-section">
+            {{ $awardsSection := site.GetPage "/awards" }}
+            {{ $researchAwards := slice }}
+            {{ if $awardsSection }}
+                {{ $researchAwards = where $awardsSection.RegularPages ".Params.category" "eq" "research" }}
+            {{ end }}
+            {{ if $researchAwards }}
+                <header class="page-header">
+                    <h1>Research Awards</h1>
+                    <h2>Awards and recognition for research excellence</h2>
+                </header>
+                <div class="content-list">
+                    {{ range $researchAwards.ByDate.Reverse }}
+                    <div class="content-item">
+                        {{ if .Params.images }}
+                        <div class="content-item-image">
+                            <img src="/images/{{ index .Params.images 0 }}" alt="{{ .Title }}" />
+                        </div>
+                        {{ end }}
+                        <div class="content-item-content">
+                            <h4>{{ .Title }}</h4>
+                            <div class="content-meta">
+                                <div class="content-meta-line">
+                                    {{ with .Params.organization }}{{ . }}{{ end }}{{ if and .Params.organization .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "January 2006" . }}</time>{{ end }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            {{ else }}
+                <header class="page-header"><h1>Research Awards</h1></header>
+                <p class="no-awards">Awards and recognition will be listed here.</p>
+            {{ end }}
+        </section>
+    </div>
+
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+    {{ $pageCSS := resources.Get "css/publications.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+{{ end }} 

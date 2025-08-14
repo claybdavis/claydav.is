@@ -1,0 +1,30 @@
+/* ==========================================================================
+   PDF Viewer Styles
+   ========================================================================== */
+
+.pdf-viewer {
+  position: relative;
+  inline-size: 100%;
+  block-size: calc(100vh - var(--size-header-offset));
+  min-block-size: 350px;
+  max-block-size: 80vh;
+}
+
+.pdf-viewer iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  border: none;
+  display: block;
+}
+
+.pdf-viewer p {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: 0;
+  padding-block: var(--space-xl);
+  padding-inline: var(--space-xl);
+  border-radius: var(--border-radius-sm);
+}

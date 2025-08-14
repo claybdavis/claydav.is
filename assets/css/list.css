@@ -1,0 +1,113 @@
+/* ===========================================================================
+   Shared List Item Styles
+   ========================================================================== */
+
+/* Override page-content bottom padding for list pages only (not home page) */
+.content-page .page-content:has(.content-list) {
+  padding-block-end: 0;
+}
+
+/* Content list styles */
+.content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-block-end: var(--space-lg); /* Larger space after last item */
+}
+
+.content-item {
+  padding-block: var(--space-xs);
+  transition: none;
+  display: flex;
+  gap: var(--space-lg);
+  align-items: stretch;
+  text-decoration: none;
+  color: var(--color-text);
+  border-block-end: none;
+}
+
+.content-item:last-child {
+  margin-block-end: 0;
+}
+
+/* Remove underline and color/border changes on hover/focus */
+.content-item:hover,
+.content-item:focus {
+  color: inherit;
+  text-decoration: none;
+  border-color: var(--divider-line-color);
+  border-bottom-color: var(--divider-line-color);
+  outline: none;
+}
+
+.content-item-image {
+  flex: 0 0 auto;
+  inline-size: var(--size-card-image-sm);
+  aspect-ratio: 17 / 22; /* approx. 8.5 x 11 letter */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  background-color: var(--color-gray);
+  align-self: flex-start; /* prevent stretch to content height */
+}
+
+.content-item-image img {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.content-item-content {
+  flex: 1;
+  min-inline-size: 0;
+  padding-block-start: 0;
+  padding-block-end: var(--space-sm);
+  padding-inline-end: var(--space-base);
+  line-height: var(--line-height-tight);
+}
+
+.content-item-content > h4 {
+  margin-block-end: var(--space-sm);
+}
+
+.content-meta {
+  margin-block-start: var(--space-sm);
+  color: var(--color-text-secondary);
+}
+
+.content-item-content > p {
+  margin-block-start: var(--space-sm);
+  margin-block-end: 0;
+}
+
+.content-meta cite {
+  font-style: italic;
+  font-weight: var(--font-weight-regular);
+  display: block;
+  margin-block-start: var(--space-sm);
+}
+
+/* Generic meta line for author/date, organization/date, etc. */
+.content-meta-line {
+  line-height: 1.4;
+}
+
+/* Time elements in meta lines */
+.content-meta-line time {
+  color: inherit;
+}
+
+/* ==========================================================================
+   Two-Column Layout for Content Pages
+   ========================================================================== */
+
+/* Two-pane layout for teaching, publications, etc. */
+.content-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}

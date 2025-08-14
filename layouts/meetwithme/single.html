@@ -1,0 +1,21 @@
+{{ define "main" }}
+<article class="page-content">
+    <header class="page-header">
+        <h1>{{ if .Params.meeting_type }}{{ .Params.meeting_type }}{{ else }}{{ .Title }}{{ end }}</h1>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <!-- Calendly inline widget begin -->
+    <section>
+        <div class="calendly-inline-widget" data-url="{{ .Params.calendly_url }}" data-resize="true" style="min-width:320px;height:700px;"></div>
+    </section>
+    <!-- Calendly inline widget end -->
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $meetwithmeCSS := resources.Get "css/meetwithme.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $meetwithmeCSS.RelPermalink }}">
+{{ end }} 

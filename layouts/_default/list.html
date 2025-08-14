@@ -1,0 +1,40 @@
+{{ define "main" }}
+<article class="page-content">
+    <header class="page-header">
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <div>
+        {{ .Content }}
+    </div>
+    
+    {{ if .RegularPages }}
+    <div class="content-list">
+        {{ range .RegularPages }}
+        <a href="{{ .RelPermalink }}" class="content-item">
+            {{ if .Params.cover_image }}
+            <div class="content-item-image">
+                <img src="/images/{{ .Params.cover_image }}" alt="Cover image for {{ .Title }}" />
+            </div>
+            {{ end }}
+            <div class="content-item-content">
+                <h4>{{ .Title }}</h4>
+                <div class="content-meta">
+                    {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "January 2, 2006" }}</time>{{ end }}
+                </div>
+                {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+            </div>
+        </a>
+        {{ end }}
+    </div>
+    {{ end }}
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+{{ end }} 

@@ -1,0 +1,271 @@
+{{ define "main" }}
+<article class="page-content">
+    
+    <div class="teaching-content">
+        {{ .Content }}
+    </div>
+    
+
+    
+    <div class="content-layout stack-on-mobile">
+        <!-- Left pane - Syllabi -->
+        <section class="syllabi-section">
+            {{ $syllabiSection := "" }}
+            {{ range .Sections }}
+                {{ if in .File.Dir "syllabi" }}
+                    {{ $syllabiSection = . }}
+                {{ end }}
+            {{ end }}
+            {{ if $syllabiSection }}
+            {{ with $syllabiSection }}
+            <header class="page-header">
+                <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
+                {{ with .Params.description }}
+                <h2>{{ . }}</h2>
+                {{ end }}
+            </header>
+            <div class="content-list">
+                {{ range .RegularPages.ByDate.Reverse }}
+                <a href="{{ .RelPermalink }}" class="content-item">
+                    {{ if .Params.cover_image }}
+                    <div class="content-item-image">
+                        <img src="/images/{{ .Params.cover_image }}" alt="Cover image for {{ .Title }}" />
+                    </div>
+                    {{ end }}
+                    <div class="content-item-content">
+                        <h4>{{ .Title }}</h4>
+                        <div class="content-meta">
+                            <div class="content-meta-line">
+                                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "2006" . }}</time>{{ end }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+            {{ end }}
+            {{ end }}
+            
+            <!-- Awards Section -->
+            <section class="awards-section">
+                {{ $awardsSection := site.GetPage "/awards" }}
+                {{ $teachingAwards := slice }}
+                {{ if $awardsSection }}
+                    {{ $teachingAwards = where $awardsSection.RegularPages ".Params.category" "eq" "teaching" }}
+                {{ end }}
+                {{ if $teachingAwards }}
+                    <header class="page-header">
+                        <h1>Teaching Awards</h1>
+                        <h2>Awards and recognition for teaching excellence</h2>
+                    </header>
+                    <div class="content-list">
+                        {{ range $teachingAwards.ByDate.Reverse }}
+                        <div class="content-item">
+                            {{ if .Params.images }}
+                            <div class="content-item-image">
+                                <img src="/images/{{ index .Params.images 0 }}" alt="{{ .Title }}" />
+                            </div>
+                            {{ end }}
+                            <div class="content-item-content">
+                                <h4>{{ .Title }}</h4>
+                                <div class="content-meta">
+                                    <div class="content-meta-line">
+                                        {{ with .Params.organization }}{{ . }}{{ end }}{{ if and .Params.organization .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "January 2006" . }}</time>{{ end }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                {{ else }}
+                <header class="page-header"><h1>Teaching Awards</h1></header>
+                <p class="no-awards">Awards and recognition will be listed here.</p>
+                {{ end }}
+            </section>
+        </section>
+        
+        <!-- Right pane - Evaluations and Awards -->
+        <aside class="sidebar-section">
+            <!-- Teaching Evaluations -->
+            <section class="evaluations-section">
+                {{ $evaluationsSection := "" }}
+                {{ range .Sections }}
+                    {{ if in .File.Dir "evaluations" }}
+                        {{ $evaluationsSection = . }}
+                    {{ end }}
+                {{ end }}
+                {{ if $evaluationsSection }}
+                {{ with $evaluationsSection }}
+                <header class="page-header">
+                    <h1>{{ .Title }}</h1>
+                    {{ with .Params.description }}
+                    <h2>{{ . }}</h2>
+                    {{ end }}
+                </header>
+                <div class="evaluation-carousel">
+                    {{ $allEvaluations := .RegularPages.ByParam "year" }}
+                    {{ $allEvaluations = $allEvaluations.Reverse }}
+                    {{ $instructorOfRecord := where $allEvaluations ".Params.role" "eq" "Instructor of record" }}
+                    {{ $otherRoles := where $allEvaluations ".Params.role" "ne" "Instructor of record" }}
+                    
+                    {{ $evaluations := slice }}
+                    {{ range $instructorOfRecord }}
+                        {{ $evaluations = $evaluations | append . }}
+                    {{ end }}
+                    {{ range $otherRoles }}
+                        {{ $evaluations = $evaluations | append . }}
+                    {{ end }}
+                    
+                    {{ if gt (len $evaluations) 0 }}
+                    <div class="carousel-course-title">
+                        <div class="carousel-title-left">
+                            {{ if gt (len $evaluations) 1 }}
+                            <button class="carousel-btn prev-btn" aria-label="Previous evaluation">‹</button>
+                            {{ end }}
+                        </div>
+                        <div class="carousel-title-middle">
+                            <h3>{{ (index $evaluations 0).Params.course_title }} &middot; <span class="current-term">{{ (index $evaluations 0).Params.term }} {{ (index $evaluations 0).Params.year }}</span></h3>
+                            <h4 class="current-role">{{ (index $evaluations 0).Params.role }}</h4>
+                        </div>
+                        <div class="carousel-title-right">
+                            {{ if gt (len $evaluations) 1 }}
+                            <button class="carousel-btn next-btn" aria-label="Next evaluation">›</button>
+                            {{ end }}
+                        </div>
+                    </div>
+                    {{ end }}
+                    
+                    <div class="evaluation-container">
+                        {{ range $index, $evaluation := $evaluations }}
+                        <div class="evaluation-item{{ if eq $index 0 }} active{{ end }}" data-index="{{ $index }}">
+                            <!-- Hidden header content for this evaluation -->
+                            <div class="evaluation-header-data" style="display: none;">
+                                <h3>{{ .Params.course_title }} &middot; <span class="current-term">{{ .Params.term }} {{ .Params.year }}</span></h3>
+                                <h4 class="current-role">{{ .Params.role }}</h4>
+                            </div>
+
+                            
+                            <div class="evaluation-scores">
+                                {{ $params := .Params }}
+                                
+                                <!-- Find highest and second highest scoring evaluations -->
+                                {{ $highestScore := 0 }}
+                                {{ $highestIndex := 1 }}
+                                {{ $secondHighestScore := 0 }}
+                                {{ $secondHighestIndex := 2 }}
+                                {{ range $i := seq 20 }}
+                                    {{ $titleKey := printf "evaluation_title_%d" $i }}
+                                    {{ $scoreKey := printf "evaluation_score_%d" $i }}
+                                    {{ $denomKey := printf "evaluation_denom_%d" $i }}
+                                    {{ if index $params $titleKey }}
+                                        {{ $score := index $params $scoreKey }}
+                                        {{ $denom := index $params $denomKey }}
+                                        {{ $scoreFloat := $score | float }}
+                                        {{ $denomFloat := $denom | float }}
+                                        {{ if and $denomFloat (ne $denomFloat 0) }}
+                                            {{ $percentage := div (mul $scoreFloat 100) $denomFloat }}
+                                            {{ if gt $percentage $highestScore }}
+                                                {{ $secondHighestScore = $highestScore }}
+                                                {{ $secondHighestIndex = $highestIndex }}
+                                                {{ $highestScore = $percentage }}
+                                                {{ $highestIndex = $i }}
+                                            {{ else if gt $percentage $secondHighestScore }}
+                                                {{ $secondHighestScore = $percentage }}
+                                                {{ $secondHighestIndex = $i }}
+                                            {{ end }}
+                                        {{ end }}
+                                    {{ end }}
+                                {{ end }}
+                                
+                                <!-- Determine which second evaluation to show -->
+                                {{ $secondToShow := $highestIndex }}
+                                {{ if eq $highestIndex 1 }}
+                                    {{ $secondToShow = $secondHighestIndex }}
+                                {{ end }}
+                                
+                                <!-- Display evaluations -->
+                                {{ $evaluationCount := 0 }}
+                                {{ $shownCount := 0 }}
+                                {{ $hiddenCount := 0 }}
+                                {{ range $i := seq 20 }}
+                                    {{ $titleKey := printf "evaluation_title_%d" $i }}
+                                    {{ $scoreKey := printf "evaluation_score_%d" $i }}
+                                    {{ $denomKey := printf "evaluation_denom_%d" $i }}
+                                    {{ $nKey := printf "evaluation_n_%d" $i }}
+                                    {{ if index $params $titleKey }}
+                                        {{ $evaluationCount = add $evaluationCount 1 }}
+                                        {{ $score := index $params $scoreKey }}
+                                        {{ $denom := index $params $denomKey }}
+                                        {{ $scoreFloat := $score | float }}
+                                        {{ $denomFloat := $denom | float }}
+                                        {{ $percentage := 0 }}
+                                        {{ if and $denomFloat (ne $denomFloat 0) }}
+                                            {{ $percentage = div (mul $scoreFloat 100) $denomFloat }}
+                                        {{ end }}
+                                        {{ $percentageRounded := printf "%.1f" $percentage }}
+                                        
+                                        {{ $isFirstOrSecond := or (eq $i 1) (eq $i $secondToShow) }}
+                                        {{ $itemClass := "score-item" }}
+                                        {{ $dataToggleable := "false" }}
+                                        {{ if $isFirstOrSecond }}
+                                            {{ $shownCount = add $shownCount 1 }}
+                                        {{ else }}
+                                            {{ $itemClass = "score-item score-item-hidden" }}
+                                            {{ $dataToggleable = "true" }}
+                                            {{ $hiddenCount = add $hiddenCount 1 }}
+                                        {{ end }}
+                                        
+                                        <div class="{{ $itemClass }}" data-toggleable="{{ $dataToggleable }}">
+                                            <span class="score-title">{{ index $params $titleKey }}</span>
+                                            <div class="score-bar">
+                                                <div class="score-fill" data-percentage="{{ $percentageRounded }}"></div>
+                                                <span class="score-text"><strong>{{ $score }}/{{ $denom }}</strong> <span class="sample-size">(n={{ index $params $nKey }})</span></span>
+                                            </div>
+                                        </div>
+                                    {{ end }}
+                                {{ end }}
+                                
+                                <!-- Show more button (only if there are hidden evaluations and more than 2 total) -->
+                                {{ if and (gt $hiddenCount 0) (gt $evaluationCount 2) }}
+                                <button class="btn show-more-evaluations" onclick="toggleEvaluations(this)">
+                                    <span class="show-text">Show all {{ $evaluationCount }} evaluation metric{{ if ne $evaluationCount 1 }}s{{ end }}</span>
+                                    <span class="hide-text" style="display: none;">Show fewer evaluations</span>
+                                </button>
+                                {{ end }}
+                            </div>
+                            
+                            <div class="evaluation-comments" data-comment-count="{{ len (split .Content "</p>") }}">
+                                {{ .Content }}
+                                <button class="btn show-more-comments" onclick="toggleComments(this)" style="display: none;">
+                                    <span class="show-text">Show more reviews</span>
+                                    <span class="hide-text" style="display: none;">Show fewer reviews</span>
+                                </button>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+
+                </div>
+                {{ end }}
+                {{ end }}
+            </section>
+        </aside>
+    </div>
+</article>
+
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+    {{ $teachingCSS := resources.Get "css/teaching.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $teachingCSS.RelPermalink }}">
+{{ end }}
+
+{{ define "page-js" }}
+    {{ $teachingJS := resources.Get "js/teaching-page.js" }}
+    {{ if $teachingJS }}
+        {{ $teachingJS = $teachingJS | resources.Minify | resources.Fingerprint }}
+        <script src="{{ $teachingJS.RelPermalink }}" defer></script>
+    {{ end }}
+{{ end }} 

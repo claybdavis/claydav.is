@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Footer Styles
+   ========================================================================== */
+
+.footer {
+  margin-block-start: auto;
+  padding-block: var(--space-lg);
+  padding-inline: var(--space-base);
+  text-align: center;
+}

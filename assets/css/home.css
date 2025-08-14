@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Home Page - Change header shadow
+   ========================================================================== */
+
+/* Add double space above header on homepage */
+.home-page .container {
+  padding-block-start: calc(var(--space-lg) * 2);
+}
+
+/* ==========================================================================
+   Home Page - Global Navigation Overrides
+   ========================================================================== */
+/* Homepage header - name left, nav right */
+.home-page .header-content {
+  justify-content: space-between;
+}
+
+/* Make header name h1-sized on homepage */
+.home-page .name-link {
+  font-size: var(--font-size-4xl);
+}
+
+/* Hide the "About" link on homepage */
+.nav-link[href="/"] {
+  display: none;
+}
+
+/* ==========================================================================
+   Home Page - Layout & Spacing Optimization
+   ========================================================================== */
+
+.home-page .page-content {
+  padding-inline: var(--space-base);
+}
+
+/* ==========================================================================
+   Profile Section
+   ========================================================================== */
+
+.profile-section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-xl);
+  align-items: start;
+  max-inline-size: var(--layout-width-narrow);
+  margin-inline: auto;
+}
+
+
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-image {
+  position: relative;
+  margin: 0;
+  justify-self: start;
+  inline-size: var(--size-image-sm);
+  max-inline-size: 100%;
+}
+
+
+
+.profile-image img {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.profile-bio p {
+  margin-block-start: 0;
+  margin-block-end: var(--space-sm);
+}
+
+.profile-bio p:last-child {
+  margin-block-end: 0;
+}
+
+/* ==========================================================================
+   Profile Header
+   ========================================================================== */
+
+.name-and-icons {
+  text-align: center;
+}
+
+/* ==========================================================================
+   Contact Section
+   ========================================================================== */
+
+.contact-section {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.contact-section .contact-icons {
+  justify-content: center;
+  gap: var(--space-sm);
+  position: relative;
+  align-items: center;
+}
+
+.contact-section .contact-icons::before,
+.contact-section .contact-icons::after {
+  content: '';
+  flex: 1;
+  height: var(--divider-line-thickness);
+  background-color: var(--divider-line-color);
+}
+
+.contact-section .contact-icons::before {
+  margin-inline-end: var(--space-lg);
+}
+
+.contact-section .contact-icons::after {
+  margin-inline-start: var(--space-lg);
+}
+
+/* ==========================================================================
+   Unified Section Spacing
+   ========================================================================== */
+
+.contact-section {
+  margin-block: var(--space-sm);
+}
+
+.recent-publications-section {
+  margin-block-start: var(--space-sm);
+  margin-block-end: 0; /* Remove space before line */
+}
+
+.reading-social-section {
+  margin-block-start: 0; /* Remove space above line */
+  margin-block-end: var(--space-sm);
+}
+
+/* ==========================================================================
+   Recent Publications Section - Using Standard Content Items
+   ========================================================================== */
+
+.home-publications-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+
+
+/* Override standard content-item for vertical layout on home page */
+.home-publication-card {
+  flex-direction: column;
+  align-items: flex-start;
+  max-inline-size: 400px;
+  margin-inline: auto;
+  height: 100%;
+  gap: var(--space-sm); /* Medium gap between image and content for visual breathing room */
+}
+
+/* Home page images: full width with fixed height (like current cards) */
+.home-publication-card .content-item-image {
+  inline-size: 100%;
+  block-size: var(--size-card-image-sm);
+  aspect-ratio: unset; /* Remove the standard aspect ratio constraint */
+}
+
+/* Home page content: remove side padding, eliminate top spacing, left-align */
+.home-publication-card .content-item-content {
+  padding-inline-start: 0;
+  padding-block-start: 0;
+  text-align: left;
+  flex: 1;
+}
+
+/* Remove top margin from title to eliminate gap between image and text */
+.home-publication-card .content-item-content > h4 {
+  margin-block-start: 0;
+}
+
+/* Publication-specific styling */
+.publication-author {
+  font-weight: var(--font-weight-regular);
+}
+
+.publication-journal {
+  margin-block-start: var(--space-sm);
+  line-height: var(--line-height-tight);
+  font-style: italic;
+  text-align: left;
+}
+
+/* Remove bottom spacing from publication cards on home page */
+.home-publication-card .publication-journal {
+  margin-block-end: 0;
+}
+
+/* ==========================================================================
+   Reading & Social Section
+   ========================================================================== */
+
+.reading-social-section {
+  position: relative;
+  padding-top: var(--space-lg);
+}
+
+.reading-social-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--divider-line-thickness);
+  background-color: var(--divider-line-color);
+}
+
+/* Hide widgets by default until JavaScript shows them */
+.widget-loading {
+  display: none;
+}

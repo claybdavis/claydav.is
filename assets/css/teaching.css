@@ -1,0 +1,226 @@
+/* ==========================================================================
+   Teaching Page Styles
+   ========================================================================== */
+
+.teaching-content {
+  margin-block-end: 0;
+}
+
+/* Teaching layout now uses shared .content-layout from list.css */
+
+.syllabi-section h2,
+.evaluations-section h2,
+.awards-section h2 {
+  margin-block-end: var(--space-lg);
+}
+
+/* ==========================================================================
+   Syllabi Section (Left Pane)
+   ========================================================================== */
+
+.syllabi-section {
+  min-height: 0; /* Prevent grid item from stretching */
+  padding-inline-end: var(--space-lg);
+}
+
+/* ==========================================================================
+   Sidebar Section (Right Pane)
+   ========================================================================== */
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-height: 0;
+}
+
+/* ==========================================================================
+   Evaluation Carousel Styles
+   ========================================================================== */
+
+.evaluation-carousel {
+  border: var(--divider-line-thickness) solid var(--divider-line-color);
+  padding: 0;
+  position: relative;
+}
+
+.carousel-course-title {
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-title-left,
+.carousel-title-right {
+  flex: 0.5;
+  padding: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-title-middle {
+  flex: 5;
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.carousel-course-title h3 {
+  margin: 0;
+}
+
+.current-term {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.current-role {
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.evaluation-container {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-lg);
+}
+
+.evaluation-item {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.evaluation-item.active {
+  display: block;
+}
+
+.evaluation-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.role {
+  font-style: italic;
+}
+
+.term-year {
+  font-weight: var(--font-weight-medium);
+}
+
+/* Evaluation Scores */
+.evaluation-scores {
+  margin-block-end: var(--space-lg);
+}
+
+.score-item-hidden {
+  display: none !important;
+}
+
+.show-more-evaluations {
+  margin-block-start: var(--space-md);
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-block-end: var(--space-base);
+  background: var(--color-surface);
+}
+
+.score-title {
+  /* Normal text styling - inherit defaults */
+}
+
+
+
+/* Progress Bar Styles moved to main.css for reuse across site */
+
+.sample-size {
+  font-size: var(--font-size-sm);
+  vertical-align: middle;
+}
+
+
+
+/* Evaluation Comments */
+.evaluation-comments {
+  line-height: 1.5;
+}
+
+.evaluation-comments p {
+  margin-block-end: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-surface);
+  border-left: var(--divider-line-thickness) solid var(--color-primary-light);
+  border-radius: var(--border-radius-sm);
+}
+
+.evaluation-comments p:last-child {
+  margin-block-end: 0;
+}
+
+/* Hide comments beyond the first 2 by default */
+.evaluation-comments p:nth-child(n+3) {
+  display: none;
+}
+
+.evaluation-comments.show-all p:nth-child(n+3) {
+  display: block;
+}
+
+.show-more-comments {
+  margin-block-start: var(--space-md);
+}
+
+/* Carousel Controls */
+
+.carousel-btn {
+  background: none;
+  color: var(--color-primary-medium);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-size: 4rem;
+  line-height: 1;
+  visibility: visible;
+  text-decoration: none;
+  padding: 0;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.carousel-btn:focus {
+  outline: var(--divider-line-thickness) solid var(--color-primary-medium);
+  outline-offset: var(--space-xs);
+}
+
+.carousel-btn:disabled {
+  color: var(--color-gray);
+  cursor: default;
+  text-decoration: none;
+}
+
+
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-sm));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

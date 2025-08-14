@@ -1,0 +1,379 @@
+/* ==========================================================================
+   CSS Custom Properties - Logical Groupings
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #2D6F59;
+  --color-primary-medium: #6c9a8a;
+  --color-primary-light: #abc5bc;
+  --color-surface: #ffffff;
+  --color-gray: #f3f3f3;
+  --color-text: #000000;
+  --color-text-secondary: #333333;
+  --color-shadow-light: rgba(0, 0, 0, 0.05);
+  --color-shadow-medium: rgba(0, 0, 0, 0.1);
+
+  /* Typography */
+  --font-family-serif: 'Source Serif Pro', serif;
+  --font-family-sans: 'Geologica', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 450;
+  --font-weight-semibold: 500;
+  --font-weight-bold: 550;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-loose: 1.75;
+
+  /* Typography Sizes */
+  --font-size-sm: 0.6rem;
+  --font-size-base: .85rem;
+  --font-size-lg: 1.1rem;
+  --font-size-xl: 1.35rem;
+  --font-size-2xl: 1.6rem;
+  --font-size-3xl: 1.9rem;
+  --font-size-4xl: 2.5rem;
+
+  /* Spacing System */
+  --space-xs: 0.25rem;   /* Small internal spacing (scores, meta) */
+  --space-sm: 0.5rem;    /* Compact spacing (contact icons, cards) */
+  --space-base: 1rem;    /* Standard spacing (navigation, basic elements) */
+  --space-lg: 1.5rem;    /* Content spacing (content items, publications) */
+  --space-xl: 2.5rem;    /* Section spacing (major layout sections) */
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Border Radius */
+  --border-radius-sm: 5px;
+  --border-radius-lg: 10px;
+
+  /* Divider Lines */
+  --divider-line-thickness: 2px;
+  --divider-line-color: #999999;
+
+  /* Size System */
+  --size-card-image-xs: 75px;
+  --size-image-sm: 300px;
+  --size-image-large: 500px;
+  --size-widget-sm: 500px;
+  --size-widget-md: 600px;
+  --size-widget-lg: 700px;
+  --size-profile-grid: 375px;
+  --size-card-image-sm: 120px;
+  --size-card-image-md: 130px;
+  --size-header-offset: 200px;
+
+  /* Layout */
+  --layout-width-wide: 1200px;
+  --layout-width-narrow: 900px;
+  --transition-base: 0.2s ease;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  block-size: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  block-size: 100%;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Layout Components
+   ========================================================================== */
+
+.container {
+  max-inline-size: var(--layout-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--space-base);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100vh;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.page-content {
+  max-inline-size: var(--layout-width-narrow);
+  margin-inline: auto;
+  padding-block-end: var(--space-xl); /* Add noticeable bottom spacing */
+}
+
+.content-page .page-content {
+  max-inline-size: var(--layout-width-wide);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-block-end: var(--space-sm);
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-sm);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  margin-block-end: var(--space-sm);
+}
+
+h4 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  margin-block-end: var(--space-sm);
+}
+
+h5 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  margin-block-end: var(--space-sm);
+}
+
+p {
+  margin-block-end: var(--space-base);
+}
+
+strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+em {
+  font-weight: var(--font-weight-light);
+  font-style: italic;
+}
+
+strong em,
+em strong {
+  font-weight: var(--font-weight-semibold);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   Blockquote
+   ========================================================================== */
+
+.blockquote {
+  background: var(--color-gray);
+  margin: 0;
+  padding: var(--space-base);
+}
+
+.blockquote p {
+  margin: 0;
+}
+
+.blockquote p:not(:last-child) {
+  margin-block-end: var(--space-sm);
+}
+
+.blockquote footer {
+  margin-block-start: var(--space-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+.link,
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-block-end: var(--divider-line-thickness) solid transparent;
+  transition: color var(--transition-base), border-color var(--transition-base);
+  outline: none;
+  box-shadow: none;
+}
+
+.link:hover,
+a:hover,
+.link:focus,
+a:focus {
+  color: var(--color-primary-medium);
+  border-block-end-color: var(--color-primary-medium);
+  outline: none;
+  box-shadow: none;
+}
+
+.link:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Shared Page Header Styles
+   ========================================================================== */
+
+.page-header {
+  position: relative;
+  padding-block-end: 0;
+  margin-block-start: var(--space-lg);
+  margin-block-end: var(--space-lg);
+}
+
+.page-header::after {
+  content: none;
+  display: none;
+}
+
+/* Reduce spacing between h1 and h2 within headers */
+.page-header h1 {
+  margin-block-end: var(--space-xs);
+}
+
+/* ==========================================================================
+   List Styling
+   ========================================================================== */
+
+ul {
+  margin-block-start: var(--space-base);
+  margin-block-end: var(--space-base);
+  padding-inline-start: var(--space-xl);
+}
+
+li {
+  margin-block-end: var(--space-sm);
+}
+
+li:last-child {
+  margin-block-end: 0;
+}
+
+/* Nested lists */
+ul ul {
+  margin-block-start: var(--space-sm);
+  margin-block-end: 0;
+}
+
+/* ==========================================================================
+   Shared Button Styles
+   ========================================================================== */
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-text);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-base);
+  padding-block: var(--space-sm);
+  padding-inline: var(--space-lg);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-gray);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--color-primary-light);
+  color: var(--color-text-secondary);
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Shared Progress Bar Styles
+   ========================================================================== */
+
+.score-bar {
+  width: 100%;
+  height: 32px;
+  background-color: transparent;
+  border: var(--divider-line-thickness) solid var(--color-primary-medium);
+  overflow: hidden;
+  position: relative;
+}
+
+.score-fill {
+  height: 100%;
+  background: var(--color-primary-medium);
+  transition: width 0.3s ease-in-out;
+  position: relative;
+}
+
+.score-text {
+  font-size: var(--font-size-base);
+  color: white;
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ==========================================================================
+   Shared Responsive Utilities
+   ========================================================================== */
+
+/* Mobile: Stack all grid layouts to single column */
+@media (max-width: 900px) {
+  .content-page .stack-on-mobile {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Center images when stacked */
+  .content-page .stack-on-mobile .profile-image {
+    justify-self: center;
+  }
+}
+
+/* Home page: Keep original 768px breakpoint */
+@media (max-width: 768px) {
+  .home-page .stack-on-mobile {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Center images when stacked */
+  .home-page .stack-on-mobile .profile-image {
+    justify-self: center;
+  }
+}

@@ -1,0 +1,40 @@
+{{ define "main" }}
+<article class="page-content">
+    <header>
+        <h2 class="breadcrumb">
+            <a href="{{ .Parent.Parent.RelPermalink }}">Research</a> › <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a>
+        </h2>
+        <h1>{{ .Title }}</h1>
+        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}<cite>{{ . }}</cite> &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}</h2>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <section class="publication-layout">
+        <div class="content-body">
+            {{ .Content }}
+        </div>
+        
+        {{ if .Params.cover_image }}
+        <div class="publication-images">
+            <figure class="cover-image">
+                <img src="{{ printf "images/%s" .Params.cover_image | relURL }}" alt="Cover image for {{ .Title }}" loading="lazy" />
+            </figure>
+            {{ if .Params.first_page_image }}
+            <figure class="first-page-image">
+                <img src="{{ printf "images/%s" .Params.first_page_image | relURL }}" alt="First page of {{ .Title }}" loading="lazy" />
+            </figure>
+            {{ end }}
+        </div>
+        {{ end }}
+    </section>
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+    {{ $pageCSS := resources.Get "css/publications.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+{{ end }} 

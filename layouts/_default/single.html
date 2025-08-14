@@ -1,0 +1,25 @@
+{{ define "main" }}
+<article class="page-content">
+    <header class="page-header">
+        {{ if .Parent }}
+        <h2 class="breadcrumb">
+            {{ if .Parent.Parent }}
+                <a href="{{ .Parent.Parent.RelPermalink }}">{{ .Parent.Parent.Section | title }}</a> › 
+            {{ end }}
+            <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a>
+        </h2>
+        {{ end }}
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <div class="content-section">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+{{ end }} 

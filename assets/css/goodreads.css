@@ -1,0 +1,37 @@
+/* Goodreads widget container */
+#gr_updates_widget {
+    width: 100%;
+}
+
+#currently-reading-books {
+    font-family: var(--font-family-sans);
+}
+
+/* Currently reading book - extends generic content-item */
+/* Most styles are inherited from .content-item, .content-item-image, 
+   .content-item-content, and .content-meta in list.css */
+
+.goodreads-book-image {
+    /* Override image size - use standard list item size */
+    inline-size: var(--size-card-image-sm);
+}
+
+/* Two-column layout for reading and social */
+.reading-social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-xl);
+    align-items: stretch;
+}
+
+
+
+.reading-column,
+.social-column {
+    min-width: 0; /* Prevent overflow */
+    padding-inline: var(--space-sm);
+}
+
+.reading-column {
+    padding-inline-start: 0; /* Align to left edge */
+}

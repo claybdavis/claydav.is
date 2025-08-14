@@ -1,0 +1,336 @@
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 100;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: -100vw;
+  inset-block-end: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  z-index: -1;
+}
+
+.header-content {
+  max-inline-size: var(--layout-width-narrow);
+  margin-inline: auto;
+  padding-block: var(--space-base);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Match content-page width on non-homepage */
+.content-page .header-content {
+  max-inline-size: var(--layout-width-wide);
+}
+
+/* Add padding for home page header to match body content */
+.home-page .header-content {
+  padding-inline: var(--space-base);
+}
+
+/* Center nav on home page when there's no header-name */
+.header-content:not(:has(.header-name)) {
+  justify-content: center;
+}
+
+/* Fallback for browsers that don't support :has() */
+.header-content .nav:only-child {
+  margin-inline: auto;
+}
+
+.header-name {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.name-link {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  color: var(--color-text);
+  text-decoration: none;
+  border-block-end: var(--divider-line-thickness) solid transparent;
+  transition: color var(--transition-base), border-color var(--transition-base);
+  outline: none;
+  box-shadow: none;
+}
+
+.name-link:hover,
+.name-link:focus,
+.name-link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* When page indicator is present AND visible (mobile view), allow name to use default link styling */
+@media (max-width: 900px) {
+  .content-page .header-name:has(.page-indicator) .name-link {
+    color: var(--color-primary);
+  }
+
+  .content-page .header-name:has(.page-indicator) .name-link:hover,
+  .content-page .header-name:has(.page-indicator) .name-link:focus {
+    color: var(--color-primary-medium);
+    border-block-end-color: var(--color-primary-medium);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page .header-name:has(.page-indicator) .name-link {
+    color: var(--color-primary);
+  }
+
+  .home-page .header-name:has(.page-indicator) .name-link:hover,
+  .home-page .header-name:has(.page-indicator) .name-link:focus {
+    color: var(--color-primary-medium);
+    border-block-end-color: var(--color-primary-medium);
+  }
+}
+
+.page-indicator {
+  display: none;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-base);
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-link {
+  min-inline-size: 100px;
+  width: auto;
+}
+
+.nav-link.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-surface);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ==========================================================================
+   Hamburger Menu
+   ========================================================================== */
+
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color var(--transition-base);
+  position: relative;
+  z-index: 101;
+}
+
+.hamburger-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-btn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text);
+  margin: 2px 0;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger animation when open */
+.hamburger-open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ==========================================================================
+   Mobile Navigation Styles
+   ========================================================================== */
+
+/* Prevent body scroll when menu is open */
+.menu-open {
+  overflow: hidden;
+}
+
+/* Mobile styles for content pages */
+@media (max-width: 900px) {
+  .content-page .hamburger-btn {
+    display: flex;
+  }
+  
+  .content-page .page-indicator {
+    display: block;
+  }
+  
+  .content-page .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    gap: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 100;
+  }
+  
+  .content-page .nav-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .content-page .nav-link {
+    min-inline-size: auto;
+    width: auto;
+    max-width: 300px;
+    text-align: center;
+    padding: 16px 32px;
+    font-size: var(--font-size-xl);
+    border-radius: 12px;
+    transition: all var(--transition-base);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .content-page .nav-link:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-surface);
+    transform: scale(1.05);
+  }
+  
+
+  
+  .content-page .header-content {
+    justify-content: space-between;
+  }
+}
+
+/* Mobile styles for home page */
+@media (max-width: 768px) {
+  .home-page .hamburger-btn {
+    display: flex;
+  }
+  
+  .home-page .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    gap: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 100;
+  }
+  
+  .home-page .nav-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .home-page .nav-link {
+    min-inline-size: auto;
+    width: auto;
+    max-width: 300px;
+    text-align: center;
+    padding: 16px 32px;
+    font-size: var(--font-size-xl);
+    border-radius: 12px;
+    transition: all var(--transition-base);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .home-page .nav-link:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-surface);
+    transform: scale(1.05);
+  }
+  
+
+  
+  .home-page .header-content {
+    justify-content: space-between;
+  }
+}
+
+/* Large mobile landscape for content pages */
+@media (max-width: 900px) and (orientation: landscape) {
+  .content-page .nav {
+    gap: 16px;
+    padding: 20px 24px;
+  }
+  
+  .content-page .nav-link {
+    padding: 12px 24px;
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Large mobile landscape for home page */
+@media (max-width: 768px) and (orientation: landscape) {
+  .home-page .nav {
+    gap: 16px;
+    padding: 20px 24px;
+  }
+  
+  .home-page .nav-link {
+    padding: 12px 24px;
+    font-size: var(--font-size-lg);
+  }
+}

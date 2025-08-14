@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Contact Icons - Shared Styles
+   ========================================================================== */
+
+.contact-icons {
+  display: flex;
+  align-items: center;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 50px;
+  block-size: 50px;
+  border-radius: var(--border-radius-base);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  transition: color var(--transition-base);
+}
+
+.contact-link:hover,
+.contact-link:focus,
+.contact-link:focus-visible {
+  color: var(--color-primary-medium);
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.contact-link .icon {
+  inline-size: 30px;
+  block-size: 30px;
+}
+
+/* Make Google Scholar icon larger */
+.contact-link[href*="scholar.google.com"] .icon {
+  inline-size: 36px;
+  block-size: 36px;
+}
+
+/* ==========================================================================
+   Context-specific styles
+   ========================================================================== */
+
+/* Footer contact icons - with gap */
+.footer .contact-icons {
+  gap: var(--space-base);
+  justify-content: center;
+}

@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Publications Styles
+   ========================================================================== */
+/* Publication images section */
+.publication-images {
+  margin-block: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.cover-image,
+.first-page-image {
+  margin: 0;
+}
+
+.cover-image img,
+.first-page-image img {
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--border-radius-sm);
+  max-block-size: var(--size-image-large);
+  inline-size: auto;
+}

@@ -1,0 +1,42 @@
+baseURL = 'https://claydav.is/'
+languageCode = 'en-us'
+title = 'Clay Davis'
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+[params]
+  author = "Clay Davis"
+  description = "PhD candidate in sociology and Mellon Cluster Fellow in science studies at Northwestern University"
+
+[menu]
+  [[menu.main]]
+    name = "About"
+    url = "/"
+    pageRef = "/"
+    weight = 10
+  
+  [[menu.main]]
+    name = "Research"
+    url = "/publications/"
+    pageRef = "/publications"
+    weight = 10
+  
+  [[menu.main]]
+    name = "CV"
+    url = "/cv/"
+    pageRef = "/cv"
+    weight = 20
+    
+  [[menu.main]]
+    name = "Teaching"
+    url = "/teaching/"
+    pageRef = "/teaching"
+    weight = 30
+    
+  [[menu.main]]
+    name = "Meet with me"
+    url = "/meetwithme/officehours/"
+    pageRef = "/meetwithme/officehours"
+    weight = 40

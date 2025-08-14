@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Calendly Widget Styles
+   ========================================================================== */
+
+.calendly-inline-widget {
+  inline-size: 100%;
+  min-block-size: var(--size-widget-sm);
+  border: none;
+  display: block;
+}

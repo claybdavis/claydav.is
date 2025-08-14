@@ -1,0 +1,47 @@
+{{ define "main" }}
+<article class="page-content">
+    <header class="page-header">
+        {{ if .Parent }}
+        <h2 class="breadcrumb">
+            <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Section | title }}</a>
+        </h2>
+        {{ end }}
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <!-- PDF Viewer -->
+    {{ $pdfFound := false }}
+    {{ $pdfPath := "" }}
+    {{ with os.ReadDir "static" }}
+        {{ range . }}
+            {{ if and (not $pdfFound) (hasPrefix .Name "Davis_CV") (hasSuffix .Name ".pdf") }}
+                {{ $pdfFound = true }}
+                {{ $pdfPath = .Name }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+    
+    {{ if $pdfFound }}
+    <section>
+        <div class="pdf-viewer">
+            <iframe src="{{ $pdfPath | relURL }}" 
+                    type="application/pdf" 
+                    title="Clay Davis CV"
+                    loading="lazy">
+                <p>Your browser doesn't support PDF viewing. 
+                    <a href="{{ $pdfPath | relURL }}" download class="link">Download the PDF</a> instead.
+                </p>
+            </iframe>
+        </div>
+    </section>
+    {{ end }}
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    {{ $cvCSS := resources.Get "css/cv.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $cvCSS.RelPermalink }}">
+{{ end }} 
