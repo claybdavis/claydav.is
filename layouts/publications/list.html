@@ -8,8 +8,14 @@
         <section>
             <header class="page-header">
                 <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
+                {{ if eq .Title "Peer-Reviewed Papers" }}
+                <h2>Recently published journal articles</h2>
+                {{ else if eq .Title "Essays" }}
+                <h2>Recently published public writing</h2>
+                {{ else }}
                 {{ with .Params.description }}
                 <h2>{{ . }}</h2>
+                {{ end }}
                 {{ end }}
             </header>
             <div class="content-list">
@@ -32,6 +38,11 @@
                 </a>
                 {{ end }}
             </div>
+            {{ if eq .Title "Peer-Reviewed Papers" }}
+            <h4>A complete list of published peer-reviewed papers is available <a href="{{ .RelPermalink }}" class="link">here</a>.</h4>
+            {{ else if eq .Title "Essays" }}
+            <h4>A complete list of public writing is available <a href="{{ .RelPermalink }}" class="link">here</a>.</h4>
+            {{ end }}
         </section>
             {{ end }}
         </section>
@@ -46,7 +57,7 @@
             {{ if $researchAwards }}
                 <header class="page-header">
                     <h1>Research Awards</h1>
-                    <h2>Awards and recognition for research excellence</h2>
+                    <h2>Selected awards and recognition for research excellence</h2>
                 </header>
                 <div class="content-list">
                     {{ range $researchAwards.ByDate.Reverse }}
@@ -67,9 +78,7 @@
                     </div>
                     {{ end }}
                 </div>
-            {{ else }}
-                <header class="page-header"><h1>Research Awards</h1></header>
-                <p class="no-awards">Awards and recognition will be listed here.</p>
+                <h4>A complete list of awards is available on <a href="/cv/" class="link">my CV</a>.</h4>
             {{ end }}
         </section>
     </div>

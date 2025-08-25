@@ -12,11 +12,11 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding-block-end: var(--space-lg); /* Larger space after last item */
+  padding-block-end: var(--space-md); /* Half the original space after last item */
 }
 
 .content-item {
-  padding-block: var(--space-xs);
+  padding-block: var(--space-sm);
   transition: none;
   display: flex;
   gap: var(--space-lg);
@@ -24,6 +24,10 @@
   text-decoration: none;
   color: var(--color-text);
   border-block-end: none;
+}
+
+.content-item:first-child {
+  padding-block-start: 0;
 }
 
 .content-item:last-child {

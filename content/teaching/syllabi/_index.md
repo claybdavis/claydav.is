@@ -1,4 +1,4 @@
 ---
 title: "Syllabi"
-description: "Syllabi for courses I have developed and taught"
+description: "Courses that I have developed and taught"
 --- 

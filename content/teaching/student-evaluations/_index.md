@@ -1,6 +1,6 @@
 ---
 title: "Student Evaluations"
-description: "Student evaluations from courses I have taught"
+description: "Anonymous end-of-quarter student feedback"
 cascade:
   build:
     render: false

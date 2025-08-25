@@ -178,22 +178,7 @@
   margin-block-start: 0;
 }
 
-/* Publication-specific styling */
-.publication-author {
-  font-weight: var(--font-weight-regular);
-}
 
-.publication-journal {
-  margin-block-start: var(--space-sm);
-  line-height: var(--line-height-tight);
-  font-style: italic;
-  text-align: left;
-}
-
-/* Remove bottom spacing from publication cards on home page */
-.home-publication-card .publication-journal {
-  margin-block-end: 0;
-}
 
 /* ==========================================================================
    Reading & Social Section
