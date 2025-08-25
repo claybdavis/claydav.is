@@ -54,16 +54,14 @@
   --divider-line-color: #999999;
 
   /* Size System */
-  --size-card-image-xs: 75px;
-  --size-image-sm: 300px;
-  --size-image-large: 500px;
-  --size-widget-sm: 500px;
-  --size-widget-md: 600px;
-  --size-widget-lg: 700px;
-  --size-profile-grid: 375px;
-  --size-card-image-sm: 120px;
-  --size-card-image-md: 130px;
-  --size-header-offset: 200px;
+  /* Image sizes - all controlled by hugo.toml for consistency */
+  --size-image-sm: {{ .Site.Params.images.profile_medium }}px;
+  --size-card-image-sm: {{ .Site.Params.images.list_width }}px;
+  
+  /* Non-image sizes for layout and widgets */
+  --size-publication-max-height: 500px;  /* Max height constraint for publication images */
+  --size-widget-sm: 500px;          /* Calendly widget minimum height */
+  --size-header-offset: 200px;      /* PDF viewer height calculation */
 
   /* Layout */
   --layout-width-wide: 1200px;

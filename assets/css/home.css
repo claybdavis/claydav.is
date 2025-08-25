@@ -156,14 +156,10 @@
   margin-inline: auto;
   height: 100%;
   gap: var(--space-sm); /* Medium gap between image and content for visual breathing room */
+  padding-block: 0; /* Remove list.css padding for home cards */
 }
 
-/* Home page images: full width with fixed height (like current cards) */
-.home-publication-card .content-item-image {
-  inline-size: 100%;
-  block-size: var(--size-card-image-sm);
-  aspect-ratio: unset; /* Remove the standard aspect ratio constraint */
-}
+
 
 /* Home page content: remove side padding, eliminate top spacing, left-align */
 .home-publication-card .content-item-content {

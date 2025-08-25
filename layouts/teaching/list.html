@@ -29,7 +29,7 @@
                 <a href="{{ .RelPermalink }}" class="content-item">
                     {{ if .Params.cover_image }}
                     <div class="content-item-image">
-                        <img src="/images/{{ .Params.cover_image }}" alt="Cover image for {{ .Title }}" />
+                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "list" "loading" "lazy") }}
                     </div>
                     {{ end }}
                     <div class="content-item-content">
@@ -63,7 +63,7 @@
                         <div class="content-item">
                             {{ if .Params.images }}
                             <div class="content-item-image">
-                                <img src="/images/{{ index .Params.images 0 }}" alt="{{ .Title }}" />
+                                {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title "type" "list" "loading" "lazy") }}
                             </div>
                             {{ end }}
                             <div class="content-item-content">

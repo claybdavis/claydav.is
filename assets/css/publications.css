@@ -1,12 +1,20 @@
 /* ==========================================================================
    Publications Styles
    ========================================================================== */
+
+/* Two-column layout for single publication pages */
+.publication-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* Text column wider than image column */
+  gap: var(--space-xl);
+  align-items: start;
+}
+
 /* Publication images section */
 .publication-images {
-  margin-block: var(--space-xl);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Aligns images to the top */
   gap: var(--space-lg);
 }
 
@@ -20,6 +28,12 @@
   max-inline-size: 100%;
   block-size: auto;
   border-radius: var(--border-radius-sm);
-  max-block-size: var(--size-image-large);
   inline-size: auto;
+}
+
+/* On mobile, stack to a single column */
+@media (max-width: 900px) {
+  .publication-layout {
+    grid-template-columns: 1fr;
+  }
 }

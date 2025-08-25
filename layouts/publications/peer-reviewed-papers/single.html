@@ -18,13 +18,13 @@
         
         {{ if .Params.cover_image }}
         <div class="publication-images">
-            <figure class="cover-image">
-                <img src="{{ printf "images/%s" .Params.cover_image | relURL }}" alt="Cover image for {{ .Title }}" loading="lazy" />
-            </figure>
+            <div class="cover-image">
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "full" "loading" "lazy") }}
+            </div>
             {{ if .Params.first_page_image }}
-            <figure class="first-page-image">
-                <img src="{{ printf "images/%s" .Params.first_page_image | relURL }}" alt="First page of {{ .Title }}" loading="lazy" />
-            </figure>
+            <div class="first-page-image">
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.first_page_image) "alt" (printf "First page of %s" .Title) "type" "full" "loading" "lazy") }}
+            </div>
             {{ end }}
         </div>
         {{ end }}

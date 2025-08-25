@@ -47,21 +47,43 @@
 .content-item-image {
   flex: 0 0 auto;
   inline-size: var(--size-card-image-sm);
-  aspect-ratio: 17 / 22; /* approx. 8.5 x 11 letter */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;        /* simpler: no flex centering */
   overflow: hidden;
   margin: 0;
-  background-color: var(--color-gray);
   align-self: flex-start; /* prevent stretch to content height */
 }
 
+/* Images are pre-cropped by Hugo (dimensions from hugo.toml) */
 .content-item-image img {
+  inline-size: 100%;
+  block-size: auto;      /* use natural height for list thumbnails */
+  display: block;
+}
+
+/* Ensure picture wrapper doesn't create baseline whitespace */
+.content-item-image picture {
+  display: block;
+}
+
+/* Home page publication cards: specialized image dimensions */
+.home-publication-card .content-item-image {
+  inline-size: 100%;
+  block-size: var(--size-card-image-sm);
+  display: block;
+}
+
+.home-publication-card .content-item-image img {
+  inline-size: 100%;
+  block-size: 100%;      /* fill fixed-height home container */
+  object-fit: cover;
+  display: block;
+}
+
+/* Make the <picture> wrapper fill the fixed-height container on home cards */
+.home-publication-card .content-item-image picture {
   inline-size: 100%;
   block-size: 100%;
   display: block;
-  object-fit: cover;
 }
 
 .content-item-content {

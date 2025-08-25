@@ -7,7 +7,7 @@
             </div>
         </div>
         <figure class="profile-image">
-            <img src="{{ "images/profile/clay-davis.jpg" | relURL }}" alt="Clay Davis" loading="eager" />
+                                {{ partial "image-processor.html" (dict "src" "images/profile/clay-davis.jpg" "alt" "Clay Davis" "type" "profile" "loading" "eager") }}
         </figure>
     </section>
     
@@ -35,7 +35,7 @@
             <a href="{{ .RelPermalink }}" class="content-item home-publication-card">
                 {{ if .Params.cover_image }}
                 <div class="content-item-image">
-                    <img src="{{ printf "images/%s" .Params.cover_image | relURL }}" alt="Cover image for {{ .Title }}" loading="lazy" />
+                    {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "home" "quality" "85" "anchor" "Center" "scale" 2) }}
                 </div>
                 {{ end }}
                 <div class="content-item-content">
