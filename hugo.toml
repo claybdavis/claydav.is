@@ -9,6 +9,15 @@ title = 'Clay Davis'
 [params]
   author = "Clay Davis"
   description = "PhD candidate in sociology and Mellon Cluster Fellow in science studies at Northwestern University"
+  
+[params.colors]
+  primary = "#2D6F59"
+  primary_medium = "#6c9a8a"
+  primary_light = "#abc5bc"
+  surface = "#ffffff"
+  gray = "#f3f3f3"
+  text = "#000000"
+  text_secondary = "#333333"
 
 [menu]
   [[menu.main]]

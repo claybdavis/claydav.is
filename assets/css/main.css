@@ -4,13 +4,13 @@
 
 :root {
   /* Colors */
-  --color-primary: #2D6F59;
-  --color-primary-medium: #6c9a8a;
-  --color-primary-light: #abc5bc;
-  --color-surface: #ffffff;
-  --color-gray: #f3f3f3;
-  --color-text: #000000;
-  --color-text-secondary: #333333;
+  --color-primary: {{ .Site.Params.colors.primary }};
+  --color-primary-medium: {{ .Site.Params.colors.primary_medium }};
+  --color-primary-light: {{ .Site.Params.colors.primary_light }};
+  --color-surface: {{ .Site.Params.colors.surface }};
+  --color-gray: {{ .Site.Params.colors.gray }};
+  --color-text: {{ .Site.Params.colors.text }};
+  --color-text-secondary: {{ .Site.Params.colors.text_secondary }};
   --color-shadow-light: rgba(0, 0, 0, 0.05);
   --color-shadow-medium: rgba(0, 0, 0, 0.1);
 

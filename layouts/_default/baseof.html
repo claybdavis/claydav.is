@@ -7,8 +7,11 @@
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <meta name="author" content="{{ .Site.Params.author }}">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,{{ partial "favicon.html" . | urlize }}">
+
     <!-- CSS -->
-    {{ $mainCSS := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
+    {{ $mainCSS := resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main.css" . | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $mainCSS.RelPermalink }}">
     {{ $headerCSS := resources.Get "css/header.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $headerCSS.RelPermalink }}">
