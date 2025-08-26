@@ -8,7 +8,10 @@
     <meta name="author" content="{{ .Site.Params.author }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,{{ partial "favicon.html" . | urlize }}">
+    <link rel="icon" type="image/svg+xml" sizes="any" href='data:image/svg+xml;base64,{{ (partial "favicon.html" .) | base64Encode }}'>
+    {{ with .Site.Params.colors.primary }}
+    <meta name="theme-color" content="{{ . }}">
+    {{ end }}
 
     <!-- CSS -->
     {{ $mainCSS := resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main.css" . | resources.Minify | resources.Fingerprint }}
