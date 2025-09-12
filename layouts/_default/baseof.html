@@ -28,12 +28,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cloud.umami.is">
-    {{ if and .IsHome (not .Params.hide_home_widgets) }}
+    {{ if .IsHome }}
+    <!-- Preload critical homepage image -->
+    <link rel="preload" as="image" href="{{ (resources.Get "images/profile/clay-davis.jpg").Resize "400x webp" | relURL }}" type="image/webp">
+    {{ if not .Params.hide_home_widgets }}
     <!-- Widget external domains (only when widgets are enabled) -->
     <link rel="preconnect" href="https://bsky.social">
     <link rel="preconnect" href="https://www.goodreads.com">
     <link rel="preconnect" href="https://corsproxy.io">
     <link rel="preconnect" href="https://api.allorigins.win">
+    {{ end }}
     {{ end }}
     
     <!-- Fonts -->

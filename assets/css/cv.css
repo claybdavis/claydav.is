@@ -5,28 +5,9 @@
 .pdf-viewer {
   position: relative;
   inline-size: 100%;
-  block-size: 600px;
-  min-block-size: 400px;
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-  .pdf-viewer {
-    inline-size: 95vw;
-    max-inline-size: 100%;
-    block-size: 300px;
-    min-block-size: 250px;
-    margin-inline: auto;
-  }
-}
-
-/* Extra small mobile */
-@media (max-width: 480px) {
-  .pdf-viewer {
-    inline-size: 98vw;
-    block-size: 250px;
-    min-block-size: 200px;
-  }
+  aspect-ratio: 8.5 / 11; /* Standard US Letter paper ratio */
+  min-block-size: 300px;
+  max-block-size: min(70vh, 700px);
 }
 
 .pdf-viewer iframe {
@@ -34,6 +15,7 @@
   block-size: 100%;
   border: none;
   display: block;
+  zoom: 0.5;
 }
 
 .pdf-viewer p {

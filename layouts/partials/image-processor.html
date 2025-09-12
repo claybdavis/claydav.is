@@ -5,16 +5,29 @@ Usage: {{ partial "image-processor.html" (dict "src" "images/photo.jpg" "alt" "D
 
 {{- $src := .src -}}
 {{- $alt := .alt -}}
+{{- $priority := .priority | default false -}}
 
 {{- with resources.Get $src -}}
-  {{/* Resize to high resolution for sharp display, maintain aspect ratio */}}
-  {{- $resized := .Resize "1000x" -}}
-  {{- $webp := $resized.Resize "1000x webp" -}}
+  {{/* Create multiple sizes for responsive loading */}}
+  {{- $small := .Resize "400x webp" -}}
+  {{- $medium := .Resize "800x webp" -}}
+  {{- $large := .Resize "1200x webp" -}}
+  {{- $smallJpg := .Resize "400x" -}}
+  {{- $mediumJpg := .Resize "800x" -}}
+  {{- $largeJpg := .Resize "1200x" -}}
+  
   <picture>
-    <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-    <img src="{{ $resized.RelPermalink }}" 
+    <source 
+      srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w" 
+      sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
+      type="image/webp">
+    <img src="{{ $smallJpg.RelPermalink }}" 
+         srcset="{{ $smallJpg.RelPermalink }} 400w, {{ $mediumJpg.RelPermalink }} 800w, {{ $largeJpg.RelPermalink }} 1200w"
+         sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
          alt="{{ $alt }}" 
-         loading="lazy" />
+         loading="{{ if $priority }}eager{{ else }}lazy{{ end }}"
+         {{ if $priority }}fetchpriority="high"{{ end }}
+         decoding="async" />
   </picture>
 {{- else -}}
   <div>Image not found: {{ $src }}</div>
