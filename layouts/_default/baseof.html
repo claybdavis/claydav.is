@@ -28,7 +28,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cloud.umami.is">
-    <link rel="preconnect" href="https://assets.calendly.com">
     {{ if and .IsHome (not .Params.hide_home_widgets) }}
     <!-- Widget external domains (only when widgets are enabled) -->
     <link rel="preconnect" href="https://bsky.social">
@@ -40,36 +39,6 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Geologica:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- Smart Calendly Loading Strategy -->
-    <script>
-    window.addEventListener('load', function() {
-        function loadCalendly() {
-            // Prevent duplicate loading
-            if (window.calendlyLoaded || document.querySelector('script[src*="calendly"]')) {
-                return;
-            }
-            
-            var script = document.createElement('script');
-            script.src = 'https://assets.calendly.com/assets/external/widget.js';
-            script.async = true;
-            script.onload = function() { window.calendlyLoaded = true; };
-            document.head.appendChild(script);
-        }
-        
-        // Check if this is a meeting page
-        var isMeetingPage = window.location.pathname.includes('/meetwithme/') || 
-                           window.location.pathname.includes('/officehours') ||
-                           window.location.pathname.includes('/meeting');
-        
-        if (isMeetingPage) {
-            // Load immediately on meeting pages - no delay
-            loadCalendly();
-        } else {
-            // Background load with delay on other pages
-            setTimeout(loadCalendly, 500);
-        }
-    });
-    </script>
 
     <!-- Umami visitor tracking (GDPR compliant with no cookies) -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="4d9a9c3f-8181-49c7-bf14-77d7346abb6a"></script>
@@ -77,6 +46,10 @@
     <!-- Hamburger Menu JavaScript -->
     {{ $hamburgerJS := resources.Get "js/hamburger-menu.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $hamburgerJS.RelPermalink }}" defer></script>
+    
+    <!-- Scroll to Top JavaScript -->
+    {{ $scrollToTopJS := resources.Get "js/scroll-to-top.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $scrollToTopJS.RelPermalink }}" defer></script>
 </head>
 <body class="{{ if .IsHome }}home-page{{ else }}content-page{{ end }}">
     <div class="container">
