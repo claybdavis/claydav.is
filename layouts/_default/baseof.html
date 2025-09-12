@@ -24,13 +24,52 @@
     <link rel="stylesheet" href="{{ $contactIconsCSS.RelPermalink }}">
     {{ block "page-css" . }}{{ end }}
     
-    <!-- Fonts -->
+    <!-- Resource hints for external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cloud.umami.is">
+    <link rel="preconnect" href="https://assets.calendly.com">
+    {{ if and .IsHome (not .Params.hide_home_widgets) }}
+    <!-- Widget external domains (only when widgets are enabled) -->
+    <link rel="preconnect" href="https://bsky.social">
+    <link rel="preconnect" href="https://www.goodreads.com">
+    <link rel="preconnect" href="https://corsproxy.io">
+    <link rel="preconnect" href="https://api.allorigins.win">
+    {{ end }}
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Geologica:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- Load Calendly script globally for faster meetwithme page loading -->
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <!-- Smart Calendly Loading Strategy -->
+    <script>
+    window.addEventListener('load', function() {
+        function loadCalendly() {
+            // Prevent duplicate loading
+            if (window.calendlyLoaded || document.querySelector('script[src*="calendly"]')) {
+                return;
+            }
+            
+            var script = document.createElement('script');
+            script.src = 'https://assets.calendly.com/assets/external/widget.js';
+            script.async = true;
+            script.onload = function() { window.calendlyLoaded = true; };
+            document.head.appendChild(script);
+        }
+        
+        // Check if this is a meeting page
+        var isMeetingPage = window.location.pathname.includes('/meetwithme/') || 
+                           window.location.pathname.includes('/officehours') ||
+                           window.location.pathname.includes('/meeting');
+        
+        if (isMeetingPage) {
+            // Load immediately on meeting pages - no delay
+            loadCalendly();
+        } else {
+            // Background load with delay on other pages
+            setTimeout(loadCalendly, 500);
+        }
+    });
+    </script>
 
     <!-- Umami visitor tracking (GDPR compliant with no cookies) -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="4d9a9c3f-8181-49c7-bf14-77d7346abb6a"></script>
@@ -44,7 +83,7 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-name">
-                    <a href="{{ "/" | relURL }}" class="name-link link">Clay Davis</a>
+                    <h1 class="site-title"><a href="{{ "/" | relURL }}" class="name-link link">Clay Davis</a></h1>
                     {{ if and (not .IsHome) (or (eq .RelPermalink "/publications/") (eq .RelPermalink "/teaching/")) }}
                     {{ range .Site.Menus.main }}
                       {{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
@@ -78,7 +117,7 @@
         {{ if not .IsHome }}
         <footer class="footer">
             <nav class="contact-icons">
-                <a href="mailto:cdavis@northwestern.edu" class="contact-link" aria-label="Email">
+                <a href="mailto:cdavis@u.northwestern.edu" class="contact-link" aria-label="Email">
                     {{ readFile "static/icons/email.svg" | safeHTML }}
                 </a>
                 <a href="https://scholar.google.com/citations?hl=en&user=ZuazMDwAAAAJ" class="contact-link" aria-label="Google Scholar">

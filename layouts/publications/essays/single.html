@@ -19,11 +19,11 @@
         {{ if .Params.cover_image }}
         <div class="publication-images">
             <div class="cover-image">
-                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "full" "loading" "lazy") }}
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
             </div>
             {{ if .Params.first_page_image }}
             <div class="first-page-image">
-                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.first_page_image) "alt" (printf "First page of %s" .Title) "type" "full" "loading" "lazy") }}
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.first_page_image) "alt" (printf "First page of %s" .Title)) }}
             </div>
             {{ end }}
         </div>

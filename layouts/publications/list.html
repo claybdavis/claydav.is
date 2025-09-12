@@ -5,7 +5,15 @@
         <!-- Left column - Publication Types -->
         <section class="publications-section">
             {{ range .Sections }}
-        <section>
+        {{ $sectionId := "" }}
+        {{ if eq .Title "Peer-Reviewed Papers" }}
+            {{ $sectionId = "peer-reviewed-papers" }}
+        {{ else if eq .Title "Essays" }}
+            {{ $sectionId = "essays" }}
+        {{ else }}
+            {{ $sectionId = (.Title | urlize) }}
+        {{ end }}
+        <section id="{{ $sectionId }}">
             <header class="page-header">
                 <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
                 {{ if eq .Title "Peer-Reviewed Papers" }}
@@ -19,30 +27,26 @@
                 {{ end }}
             </header>
             <div class="content-list">
-                {{ range .RegularPages.ByDate.Reverse }}
+                {{ $pages := .RegularPages.ByDate.Reverse }}
+                {{ range $pages }}
                 <a href="{{ .RelPermalink }}" class="content-item">
                     {{ if .Params.cover_image }}
                     <div class="content-item-image">
-                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "list" "loading" "lazy") }}
+                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
                     </div>
                     {{ end }}
                     <div class="content-item-content">
-                        <h4>{{ .Title }}</h4>
+                        <h3>{{ .Title }}</h3>
                         <div class="content-meta">
-                            <div class="content-meta-line">
+                            <h4 class="content-subtitle">
                                 {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "2006" . }}</time>{{ end }}
-                            </div>
-                            {{ with .Params.journal }}<cite>{{ . }}</cite>{{ end }}
+                            </h4>
+                            {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
                         </div>
                     </div>
                 </a>
                 {{ end }}
             </div>
-            {{ if eq .Title "Peer-Reviewed Papers" }}
-            <h4>A complete list of published peer-reviewed papers is available <a href="{{ .RelPermalink }}" class="link">here</a>.</h4>
-            {{ else if eq .Title "Essays" }}
-            <h4>A complete list of public writing is available <a href="{{ .RelPermalink }}" class="link">here</a>.</h4>
-            {{ end }}
         </section>
             {{ end }}
         </section>
@@ -57,28 +61,27 @@
             {{ if $researchAwards }}
                 <header class="page-header">
                     <h1>Research Awards</h1>
-                    <h2>Selected awards and recognition for research excellence</h2>
+                    <h2>A complete list of awards is available <a href="/cv/" class="link">on my CV</a></h2>
                 </header>
                 <div class="content-list">
                     {{ range $researchAwards.ByDate.Reverse }}
                     <div class="content-item">
                         {{ if .Params.images }}
                         <div class="content-item-image">
-                            {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title "type" "list" "loading" "lazy") }}
+                            {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title) }}
                         </div>
                         {{ end }}
                         <div class="content-item-content">
-                            <h4>{{ .Title }}</h4>
+                            <h3>{{ .Title }}</h3>
                             <div class="content-meta">
-                                <div class="content-meta-line">
+                                <h4 class="content-subtitle">
                                     {{ with .Params.organization }}{{ . }}{{ end }}{{ if and .Params.organization .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "January 2006" . }}</time>{{ end }}
-                                </div>
+                                </h4>
                             </div>
                         </div>
                     </div>
                     {{ end }}
                 </div>
-                <h4>A complete list of awards is available on <a href="/cv/" class="link">my CV</a>.</h4>
             {{ end }}
         </section>
     </div>
@@ -91,4 +94,25 @@
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
     {{ $pageCSS := resources.Get "css/publications.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+    {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
+{{ end }}
+
+{{ define "page-js" }}
+    {{ $sectionPaginationJS := resources.Get "js/section-pagination.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
+    <script>
+        // Initialize pagination for sections that need it
+        {{ range .Sections }}
+          {{ $itemCount := len .RegularPages }}
+          {{ $pageSize := 5 }}
+          {{ if eq .Title "Peer-Reviewed Papers" }}
+            {{ $pageSize = 3 }}
+          {{ end }}
+          {{ $sectionId := (.Title | urlize) }}
+          {{ if gt $itemCount $pageSize }}
+        initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
+          {{ end }}
+        {{ end }}
+    </script>
 {{ end }} 

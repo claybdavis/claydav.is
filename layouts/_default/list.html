@@ -1,5 +1,54 @@
 {{ define "main" }}
 <article class="page-content">
+    {{ if .Sections }}
+    <!-- Composite page with subsections -->
+    <header class="page-header">
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}
+        <h2>{{ . }}</h2>
+        {{ end }}
+    </header>
+    
+    <div>
+        {{ .Content }}
+    </div>
+    
+    <div class="content-layout">
+        {{ range .Sections }}
+        {{ $sectionId := (.Title | urlize) }}
+        <section id="{{ $sectionId }}">
+            <header class="page-header">
+                <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
+                {{ with .Params.description }}
+                <h2>{{ . }}</h2>
+                {{ end }}
+            </header>
+            <div class="content-list">
+                {{ $pages := .RegularPages.ByDate.Reverse }}
+                {{ range $pages }}
+                <a href="{{ .RelPermalink }}" class="content-item">
+                    {{ if .Params.cover_image }}
+                    <div class="content-item-image">
+                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
+                    </div>
+                    {{ end }}
+                    <div class="content-item-content">
+                        <h3>{{ .Title }}</h3>
+                        <div class="content-meta">
+                            <h4 class="content-subtitle">
+                                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}
+                            </h4>
+                            {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
+                        </div>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+    </div>
+    {{ else }}
+    <!-- Regular list page - use Hugo pagination -->
     <header class="page-header">
         <h1>{{ .Title }}</h1>
         {{ with .Params.description }}
@@ -12,24 +61,30 @@
     </div>
     
     {{ if .RegularPages }}
+    {{ $paginator := .Paginate .RegularPages 10 }}
     <div class="content-list">
-        {{ range .RegularPages }}
+        {{ range $paginator.Pages }}
         <a href="{{ .RelPermalink }}" class="content-item">
             {{ if .Params.cover_image }}
             <div class="content-item-image">
-                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "list" "loading" "lazy") }}
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
             </div>
             {{ end }}
             <div class="content-item-content">
-                <h4>{{ .Title }}</h4>
+                <h3>{{ .Title }}</h3>
                 <div class="content-meta">
-                    {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "January 2, 2006" }}</time>{{ end }}
+                    <h4 class="content-subtitle">
+                        {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}
+                    </h4>
+                    {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
                 </div>
-                {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
             </div>
         </a>
         {{ end }}
     </div>
+    
+    {{ template "_internal/pagination.html" . }}
+    {{ end }}
     {{ end }}
 </article>
 {{ end }}
@@ -37,4 +92,27 @@
 {{ define "page-css" }}
     {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+    {{ if .Sections }}
+    {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
+    {{ end }}
+{{ end }}
+
+{{ define "page-js" }}
+    {{ if .Sections }}
+    <!-- Include section pagination JavaScript for composite pages -->
+    {{ $sectionPaginationJS := resources.Get "js/section-pagination.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
+    <script>
+        // Initialize pagination for sections that need it
+        {{ range .Sections }}
+          {{ $itemCount := len .RegularPages }}
+          {{ $pageSize := 5 }}
+          {{ $sectionId := (.Title | urlize) }}
+          {{ if gt $itemCount $pageSize }}
+        initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
+          {{ end }}
+        {{ end }}
+    </script>
+    {{ end }}
 {{ end }} 

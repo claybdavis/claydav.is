@@ -27,13 +27,12 @@
   --line-height-loose: 1.75;
 
   /* Typography Sizes */
-  --font-size-sm: 0.6rem;
-  --font-size-base: .85rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 1rem;
   --font-size-lg: 1.1rem;
   --font-size-xl: 1.35rem;
-  --font-size-2xl: 1.6rem;
-  --font-size-3xl: 1.9rem;
-  --font-size-4xl: 2.5rem;
+  --font-size-2xl: 1.55rem;
+  --font-size-3xl: 2.5rem;
 
   /* Spacing System */
   --space-xs: 0.25rem;   /* Small internal spacing (scores, meta) */
@@ -54,19 +53,39 @@
   --divider-line-color: #999999;
 
   /* Size System */
-  /* Image sizes - all controlled by hugo.toml for consistency */
-  --size-image-sm: {{ .Site.Params.images.profile_medium }}px;
-  --size-card-image-sm: {{ .Site.Params.images.list_width }}px;
+  /* Image sizes - all controlled by CSS */
+  --size-image-sm: 300px;
+  
+  /* List/thumbnail images (portrait by default) */
+  --size-card-image-sm: 160px;
+  --size-card-image-height: 200px;
+  
+  /* Home page images (use original smaller height) */
+  --size-home-image-height: 155px;
+  
+  /* Awards images (landscape) */
+  --size-awards-width: 210px;
+  --size-awards-height: 160px;
+  
+  /* Publication images (single pages) */
+  --size-publication-max-height: 500px;  /* Max height constraint for publication images */
   
   /* Non-image sizes for layout and widgets */
-  --size-publication-max-height: 500px;  /* Max height constraint for publication images */
   --size-widget-sm: 500px;          /* Calendly widget minimum height */
   --size-header-offset: 200px;      /* PDF viewer height calculation */
 
   /* Layout */
   --layout-width-wide: 1200px;
   --layout-width-narrow: 900px;
+  
+  /* Responsive Breakpoints */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 900px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 /* ==========================================================================
@@ -126,14 +145,14 @@ body {
    ========================================================================== */
 
 h1 {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
 }
 
 h2 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text-secondary);
@@ -141,14 +160,14 @@ h2 {
 }
 
 h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
 }
 
 h4 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
@@ -162,6 +181,7 @@ h5 {
 }
 
 p {
+  font-size: var(--font-size-base);
   margin-block-end: var(--space-base);
 }
 
@@ -336,7 +356,7 @@ ul ul {
 .score-fill {
   height: 100%;
   background: var(--color-primary-medium);
-  transition: width 0.3s ease-in-out;
+  transition: width var(--transition-slow);
   position: relative;
 }
 

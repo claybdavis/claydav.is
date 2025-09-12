@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Hugo Internal Pagination Styling - Streamlined
+   ========================================================================== */
+
+.pagination {
+  text-align: center;
+}
+
+.pagination ul {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center;
+  gap: var(--space-xs);
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.pagination li {
+  display: inline-block !important;
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: var(--space-xs) var(--space-sm);
+  margin: 0 var(--space-xs);
+  border-radius: var(--border-radius-sm);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: var(--color-text);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-base);
+}
+
+.pagination a:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-surface);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Active/current page */
+.pagination .active a,
+.pagination span[aria-current="page"] {
+  background-color: var(--color-primary-light);
+  color: var(--color-surface);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Disabled/faded buttons for first/last pages */
+.pagination .disabled,
+.pagination .disabled a,
+.pagination .disabled span {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination .disabled:hover,
+.pagination .disabled a:hover,
+.pagination .disabled span:hover {
+  background-color: transparent !important;
+  color: var(--color-text) !important;
+  opacity: 0.6;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .pagination ul {
+    flex-wrap: wrap;
+  }
+  
+  .pagination a,
+  .pagination span {
+    min-width: 2rem;
+    height: 2rem;
+    font-size: var(--font-size-sm);
+  }
+}

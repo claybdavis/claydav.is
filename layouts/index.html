@@ -7,7 +7,7 @@
             </div>
         </div>
         <figure class="profile-image">
-                                {{ partial "image-processor.html" (dict "src" "images/profile/clay-davis.jpg" "alt" "Clay Davis" "type" "profile" "loading" "eager") }}
+                                {{ partial "image-processor.html" (dict "src" "images/profile/clay-davis.jpg" "alt" "Clay Davis") }}
         </figure>
     </section>
     
@@ -25,44 +25,46 @@
         </nav>
     </section>
     
-    {{ if not .Params.hide_home_widgets }}
     <section class="recent-publications-section">
-        <h3>Recent Publications</h3>
-        <div class="content-list home-publications-grid stack-on-mobile">
+        <h1>Recent Publications</h1>
+        <div class="content-list stack-on-mobile">
             {{ $allPublications := where (where .Site.RegularPages "Section" "publications") ".Params.date" "!=" nil }}
             {{ $sortedPublications := sort $allPublications ".Params.date" "desc" }}
             {{ range first 3 $sortedPublications }}
-            <a href="{{ .RelPermalink }}" class="content-item home-publication-card">
+            <a href="{{ .RelPermalink }}" class="content-item">
                 {{ if .Params.cover_image }}
                 <div class="content-item-image">
-                    {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "home" "quality" "85" "anchor" "Center" "scale" 2) }}
+                    {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
                 </div>
                 {{ end }}
                 <div class="content-item-content">
-                    <h4>{{ .Title }}</h4>
+                    <h3>{{ .Title }}</h3>
                     <div class="content-meta">
-                        <time datetime="{{ .Date.Format "2006-01-02" }}">
-                            {{ with .Params.author }}<span class="publication-author">{{ . }}</span> &middot; {{ end }}{{ .Date.Format "2006" }}
-                        </time>
+                        <h4 class="content-subtitle">
+                            <time datetime="{{ .Date.Format "2006-01-02" }}">
+                                {{ with .Params.author }}<span class="publication-author">{{ . }}</span> &middot; {{ end }}{{ .Date.Format "2006" }}
+                            </time>
+                        </h4>
+                        {{ with .Params.journal }}<h4 class="content-subtitle publication-journal"><cite>{{ . }}</cite></h4>{{ end }}
                     </div>
-                    {{ with .Params.journal }}<p class="publication-journal">{{ . }}</p>{{ end }}
                 </div>
             </a>
             {{ end }}
         </div>
     </section>
     
+    {{ if not .Params.hide_home_widgets }}
     <section class="reading-social-section">
         <div class="reading-social-grid stack-on-mobile">
             {{ if .Params.goodreads_username }}
             <div class="reading-column widget-loading">
-                <h3>Currently Reading</h3>
+                <h1>Currently Reading</h1>
                 {{ partial "goodreads.html" . }}
             </div>
             {{ end }}
             {{ if .Params.bluesky_username }}
             <div class="social-column widget-loading">
-                <h3>Latest Post on Bluesky</h3>
+                <h1>Latest Post on Bluesky</h1>
                 {{ partial "bluesky.html" . }}
             </div>
             {{ end }}
@@ -77,8 +79,10 @@
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
     {{ $pageCSS := resources.Get "css/home.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+    {{ if not .Params.hide_home_widgets }}
     {{ $goodreadsCSS := resources.Get "css/goodreads.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $goodreadsCSS.RelPermalink }}">
+    {{ end }}
 {{ end }}
 
 {{ define "page-js" }}

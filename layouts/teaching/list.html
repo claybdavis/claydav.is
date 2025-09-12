@@ -9,7 +9,7 @@
     
     <div class="content-layout stack-on-mobile">
         <!-- Left pane - Syllabi -->
-        <section class="syllabi-section">
+        <section id="syllabi" class="syllabi-section">
             {{ $syllabiSection := "" }}
             {{ range .Sections }}
                 {{ if in .File.Dir "syllabi" }}
@@ -29,15 +29,15 @@
                 <a href="{{ .RelPermalink }}" class="content-item">
                     {{ if .Params.cover_image }}
                     <div class="content-item-image">
-                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "list" "loading" "lazy") }}
+                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
                     </div>
                     {{ end }}
                     <div class="content-item-content">
-                        <h4>{{ .Title }}</h4>
+                        <h3>{{ .Title }}</h3>
                         <div class="content-meta">
-                            <div class="content-meta-line">
+                            <h4 class="content-subtitle">
                                 {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "2006" . }}</time>{{ end }}
-                            </div>
+                            </h4>
                         </div>
                     </div>
                 </a>
@@ -56,28 +56,27 @@
                 {{ if $teachingAwards }}
                     <header class="page-header">
                         <h1>Teaching Awards</h1>
-                        <h2>Selected awards and recognition for teaching excellence</h2>
+                        <h2>A complete list of awards is available <a href="/cv/" class="link">on my CV</a></h2>
                     </header>
                     <div class="content-list">
                         {{ range $teachingAwards.ByDate.Reverse }}
                         <div class="content-item">
                             {{ if .Params.images }}
                             <div class="content-item-image">
-                                {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title "type" "list" "loading" "lazy") }}
+                                {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title) }}
                             </div>
                             {{ end }}
                             <div class="content-item-content">
-                                <h4>{{ .Title }}</h4>
+                                <h3>{{ .Title }}</h3>
                                 <div class="content-meta">
-                                    <div class="content-meta-line">
+                                    <h4 class="content-subtitle">
                                         {{ with .Params.organization }}{{ . }}{{ end }}{{ if and .Params.organization .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "January 2006" . }}</time>{{ end }}
-                                    </div>
+                                    </h4>
                                 </div>
                             </div>
                         </div>
                         {{ end }}
                     </div>
-                    <h4>A complete list of awards is available on <a href="/cv/" class="link">my CV</a>.</h4>
                 {{ end }}
             </section>
         </section>
@@ -258,6 +257,8 @@
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
     {{ $teachingCSS := resources.Get "css/teaching.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $teachingCSS.RelPermalink }}">
+    {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
 {{ end }}
 
 {{ define "page-js" }}
@@ -266,4 +267,18 @@
         {{ $teachingJS = $teachingJS | resources.Minify | resources.Fingerprint }}
         <script src="{{ $teachingJS.RelPermalink }}" defer></script>
     {{ end }}
+    <!-- Include section pagination JavaScript -->
+    {{ $sectionPaginationJS := resources.Get "js/section-pagination.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
+    <script>
+        // Initialize pagination for sections that need it
+        {{ range .Sections }}
+          {{ $itemCount := len .RegularPages }}
+          {{ $pageSize := 5 }}
+          {{ $sectionId := (.Title | urlize) }}
+          {{ if gt $itemCount $pageSize }}
+        initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
+          {{ end }}
+        {{ end }}
+    </script>
 {{ end }} 

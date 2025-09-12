@@ -17,7 +17,14 @@
 
 /* Make header name h1-sized on homepage */
 .home-page .name-link {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-3xl);
+}
+
+/* Remove hover behavior from name on homepage */
+.home-page .name-link:hover,
+.home-page .name-link:focus {
+  color: var(--color-text);
+  border-block-end-color: transparent;
 }
 
 /* Hide the "About" link on homepage */
@@ -46,8 +53,6 @@
   margin-inline: auto;
 }
 
-
-
 .profile-text {
   display: flex;
   flex-direction: column;
@@ -61,8 +66,6 @@
   max-inline-size: 100%;
 }
 
-
-
 .profile-image img {
   inline-size: 100%;
   block-size: auto;
@@ -75,14 +78,6 @@
 
 .profile-bio p:last-child {
   margin-block-end: 0;
-}
-
-/* ==========================================================================
-   Profile Header
-   ========================================================================== */
-
-.name-and-icons {
-  text-align: center;
 }
 
 /* ==========================================================================
@@ -136,41 +131,48 @@
 }
 
 /* ==========================================================================
-   Recent Publications Section - Using Standard Content Items
+   Recent Publications Section
    ========================================================================== */
 
-.home-publications-grid {
+/* Transform list layout into 3-column grid */
+.recent-publications-section .content-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-lg);
   align-items: stretch;
 }
 
-
-
-/* Override standard content-item for vertical layout on home page */
-.home-publication-card {
+/* Transform items from horizontal to vertical cards */
+.recent-publications-section .content-item {
   flex-direction: column;
   align-items: flex-start;
   max-inline-size: 400px;
   margin-inline: auto;
   height: 100%;
-  gap: var(--space-sm); /* Medium gap between image and content for visual breathing room */
-  padding-block: 0; /* Remove list.css padding for home cards */
+  gap: var(--space-sm);
+  padding-block: 0;
 }
 
+/* Full-width images with fixed height - use original smaller height */
+.recent-publications-section .content-item-image {
+  inline-size: 100%;
+  block-size: var(--size-home-image-height);
+}
 
+.recent-publications-section .content-item-image img,
+.recent-publications-section .content-item-image picture {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
 
-/* Home page content: remove side padding, eliminate top spacing, left-align */
-.home-publication-card .content-item-content {
-  padding-inline-start: 0;
-  padding-block-start: 0;
+/* Adjust content spacing for cards */
+.recent-publications-section .content-item-content {
+  padding-inline: 0;
   text-align: left;
-  flex: 1;
 }
 
-/* Remove top margin from title to eliminate gap between image and text */
-.home-publication-card .content-item-content > h4 {
+.recent-publications-section .content-item-content > h3 {
   margin-block-start: 0;
 }
 

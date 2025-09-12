@@ -18,4 +18,4 @@
 {{ define "page-css" }}
     {{ $meetwithmeCSS := resources.Get "css/meetwithme.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $meetwithmeCSS.RelPermalink }}">
-{{ end }} 
+{{ end }}

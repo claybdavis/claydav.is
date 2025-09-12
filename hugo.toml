@@ -2,15 +2,8 @@ baseURL = 'https://claydav.is/'
 languageCode = 'en-us'
 title = 'Clay Davis'
 
-[caches]
-  [caches.images]
-    dir = ':cacheDir/images'
-
 [imaging]
-  quality = 80
-  resampleFilter = "Lanczos"
-  anchor = "Center"
-  bgColor = "#ffffff"
+  quality = 75
 
 [params]
   author = "Clay Davis"
@@ -25,23 +18,11 @@ title = 'Clay Davis'
   text = "#000000"
   text_secondary = "#333333"
 
-[params.images]
-  # Homepage publication cards (landscape)
-  home_width = 480
-  home_height = 200
-  
-  # List item thumbnails (used across site, including home cards)
-  list_width = 120
-  list_height = 155
-  
-  # Article headers
-  header_width = 500
-  header_height = 300
-  
-  # Profile images (multiple responsive sizes)
-  profile_small = 200
-  profile_medium = 300
-  profile_large = 400
+[pagination]
+  disableAliases = false
+  pagerSize = 10
+  path = "page"
+
 
 [menu]
   [[menu.main]]

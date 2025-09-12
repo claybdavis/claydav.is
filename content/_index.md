@@ -1,7 +1,7 @@
 ---
 title: "About Me"
 description: "PhD candidate in sociology and Mellon Cluster Fellow in science studies at Northwestern University"
-hide_home_widgets: false
+hide_home_widgets: true
 bluesky_username: "claydav.is"
 goodreads_username: "claydavis"
 ---

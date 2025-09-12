@@ -132,12 +132,6 @@
   background: var(--color-surface);
 }
 
-.score-title {
-  /* Normal text styling - inherit defaults */
-}
-
-
-
 /* Progress Bar Styles moved to main.css for reuse across site */
 
 .sample-size {
@@ -184,7 +178,7 @@
   color: var(--color-primary-medium);
   border: none;
   cursor: pointer;
-  transition: var(--transition-base);
+  transition: color var(--transition-base);
   font-size: 4rem;
   line-height: 1;
   visibility: visible;

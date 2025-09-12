@@ -11,12 +11,15 @@
 .content-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  padding-block-end: var(--space-md); /* Half the original space after last item */
+  gap: var(--space-sm);
+}
+
+/* Reduce space between section headers and their content lists */
+.page-header + .content-list {
+  margin-block-start: calc(-1 * var(--space-xs));
 }
 
 .content-item {
-  padding-block: var(--space-sm);
   transition: none;
   display: flex;
   gap: var(--space-lg);
@@ -26,65 +29,43 @@
   border-block-end: none;
 }
 
-.content-item:first-child {
-  padding-block-start: 0;
-}
-
-.content-item:last-child {
-  margin-block-end: 0;
-}
-
-/* Remove underline and color/border changes on hover/focus */
-.content-item:hover,
-.content-item:focus {
-  color: inherit;
-  text-decoration: none;
-  border-color: var(--divider-line-color);
-  border-bottom-color: var(--divider-line-color);
-  outline: none;
+/* Apply underline only to the title on hover for links (not awards) */
+a.content-item:hover h3,
+a.content-item:focus h3 {
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary-medium);
 }
 
 .content-item-image {
   flex: 0 0 auto;
   inline-size: var(--size-card-image-sm);
+  block-size: var(--size-card-image-height);
   display: block;        /* simpler: no flex centering */
   overflow: hidden;
   margin: 0;
   align-self: flex-start; /* prevent stretch to content height */
 }
 
-/* Images are pre-cropped by Hugo (dimensions from hugo.toml) */
+/* CSS controls all image sizing and cropping */
 .content-item-image img {
-  inline-size: 100%;
-  block-size: auto;      /* use natural height for list thumbnails */
-  display: block;
-}
-
-/* Ensure picture wrapper doesn't create baseline whitespace */
-.content-item-image picture {
-  display: block;
-}
-
-/* Home page publication cards: specialized image dimensions */
-.home-publication-card .content-item-image {
-  inline-size: 100%;
-  block-size: var(--size-card-image-sm);
-  display: block;
-}
-
-.home-publication-card .content-item-image img {
-  inline-size: 100%;
-  block-size: 100%;      /* fill fixed-height home container */
-  object-fit: cover;
-  display: block;
-}
-
-/* Make the <picture> wrapper fill the fixed-height container on home cards */
-.home-publication-card .content-item-image picture {
   inline-size: 100%;
   block-size: 100%;
   display: block;
+  object-fit: cover; /* Crops to fill container while maintaining aspect ratio */
 }
+
+/* Ensure picture wrapper doesn't create baseline whitespace and fills container */
+.content-item-image picture {
+  display: block;
+  block-size: 100%;
+}
+
+/* Awards sections use landscape orientation */
+.awards-section .content-item-image {
+  inline-size: var(--size-awards-width);
+  block-size: var(--size-awards-height);
+}
+
 
 .content-item-content {
   flex: 1;
@@ -95,13 +76,19 @@
   line-height: var(--line-height-tight);
 }
 
-.content-item-content > h4 {
+.content-item-content > h3 {
   margin-block-end: var(--space-sm);
 }
 
 .content-meta {
   margin-block-start: var(--space-sm);
   color: var(--color-text-secondary);
+}
+
+/* Subtitles under item titles (author/date, journal, org/date, etc.) */
+.content-meta .content-subtitle {
+  margin: 0;
+  font-weight: var(--font-weight-medium);
 }
 
 .content-item-content > p {
@@ -116,16 +103,6 @@
   margin-block-start: var(--space-sm);
 }
 
-/* Generic meta line for author/date, organization/date, etc. */
-.content-meta-line {
-  line-height: 1.4;
-}
-
-/* Time elements in meta lines */
-.content-meta-line time {
-  color: inherit;
-}
-
 /* ==========================================================================
    Two-Column Layout for Content Pages
    ========================================================================== */
@@ -136,4 +113,17 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--space-xl);
   align-items: start;
+}
+
+/* ==========================================================================
+   Awards-specific styles
+   ========================================================================== */
+
+/* Tighter spacing between title and subtitle for awards only */
+.awards-section .content-item-content > h3 {
+  margin-block-end: var(--space-xs);
+}
+
+.awards-section .content-meta {
+  margin-block-start: 0;
 }

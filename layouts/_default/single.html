@@ -10,16 +10,36 @@
         </h2>
         {{ end }}
         <h1>{{ .Title }}</h1>
+        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}<cite>{{ . }}</cite> &middot;{{ end }}{{ if and .Params.volume .Params.issue }} {{ .Params.volume }}({{ .Params.issue }}) &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}{{ if and .Params.page_start .Params.page_end }}, pp. {{ .Params.page_start }}-{{ .Params.page_end }}{{ end }}</h2>
         {{ with .Params.description }}
         <h2>{{ . }}</h2>
         {{ end }}
     </header>
     
-    <div class="content-section">
-        {{ .Content }}
-    </div>
+    <section class="publication-layout">
+        <div class="content-body">
+            {{ .Content }}
+        </div>
+        
+        {{ if .Params.cover_image }}
+        <div class="publication-images">
+            <div class="cover-image">
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
+            </div>
+            {{ if .Params.first_page_image }}
+            <div class="first-page-image">
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.first_page_image) "alt" (printf "First page of %s" .Title)) }}
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    </section>
 </article>
 {{ end }}
 
 {{ define "page-css" }}
+    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
+    {{ $pageCSS := resources.Get "css/publications.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
 {{ end }} 

@@ -26,9 +26,11 @@
 .cover-image img,
 .first-page-image img {
   max-inline-size: 100%;
+  max-block-size: var(--size-publication-max-height);
   block-size: auto;
   border-radius: var(--border-radius-sm);
   inline-size: auto;
+  object-fit: contain; /* Maintain aspect ratio when constrained by max height */
 }
 
 /* On mobile, stack to a single column */

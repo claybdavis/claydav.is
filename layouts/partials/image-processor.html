@@ -1,123 +1,23 @@
 {{/*
-SITE IMAGE PROCESSOR
-
-Handles all image processing for the website. Creates WebP images with exact 
-dimensions and Smart cropping.
-
-Usage: {{ partial "image-processor.html" (dict "src" "images/cover.jpg" "alt" "Description" "type" "list") }}
-
-Parameters:
-- src: path to image in assets/ folder
-- alt: description for screen readers  
-- type: what kind of image (see types below)
-- loading: "lazy" or "eager" (optional)
-- quality: WebP quality 1-100 (optional)
+Simple image processing - just optimize images, let CSS handle sizing.
+Usage: {{ partial "image-processor.html" (dict "src" "images/photo.jpg" "alt" "Description") }}
 */}}
 
 {{- $src := .src -}}
 {{- $alt := .alt -}}
-{{- $type := .type -}}
-{{- $loading := .loading | default "lazy" -}}
-{{- $quality := .quality | default "" -}}
-{{- $anchor := .anchor | default "Center" -}}
-{{- $scale := (.scale | default 1) | int -}}
 
-{{/* 
-Image types:
-• "profile" - responsive sizes for profile photos
-• "home"    - homepage cards (dimensions from hugo.toml)
-• "list"    - thumbnails (dimensions from hugo.toml)
-• "header"  - article tops (dimensions from hugo.toml)
-• custom    - pass exact size like "600x400"
-*/}}
-
-{{- if eq $type "profile" -}}
-  {{/* PROFILE IMAGES: Multiple responsive sizes */}}
-  {{- $smallW := $.Site.Params.images.profile_small | default 200 -}}
-  {{- $mediumW := $.Site.Params.images.profile_medium | default 300 -}}
-  {{- $largeW := $.Site.Params.images.profile_large | default 400 -}}
-  {{- $smallSize := printf "%dx" $smallW -}}
-  {{- $mediumSize := printf "%dx" $mediumW -}}
-  {{- $largeSize := printf "%dx" $largeW -}}
-  {{- with resources.Get $src -}}
-    {{- $small := .Resize (printf "%s webp" $smallSize) -}}
-    {{- $medium := .Resize (printf "%s webp" $mediumSize) -}}
-    {{- $large := .Resize (printf "%s webp" $largeSize) -}}
-    {{- $fallback := .Resize $mediumSize -}}
-    <picture>
-      <source srcset="{{ $small.RelPermalink }} {{ $smallW }}w, {{ $medium.RelPermalink }} {{ $mediumW }}w, {{ $large.RelPermalink }} {{ $largeW }}w"
-              sizes="(max-width: 768px) {{ $smallW }}px, (max-width: 1200px) {{ $mediumW }}px, {{ $largeW }}px"
-              type="image/webp">
-      <img src="{{ $fallback.RelPermalink }}"
-           srcset="{{ (.Resize $smallSize).RelPermalink }} {{ $smallW }}w, {{ (.Resize $mediumSize).RelPermalink }} {{ $mediumW }}w, {{ (.Resize $largeSize).RelPermalink }} {{ $largeW }}w"
-           sizes="(max-width: 768px) {{ $smallW }}px, (max-width: 1200px) {{ $mediumW }}px, {{ $largeW }}px"
-           alt="{{ $alt }}"
-           loading="{{ $loading }}" />
-    </picture>
-  {{- else -}}
-    <div style="background: #f0f0f0; padding: 20px; text-align: center; color: #666;">{{ $alt }} (image not found)</div>
-  {{- end -}}
-
+{{- with resources.Get $src -}}
+  {{/* Resize to high resolution for sharp display, maintain aspect ratio */}}
+  {{- $resized := .Resize "1000x" -}}
+  {{- $webp := $resized.Resize "1000x webp" -}}
+  <picture>
+    <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+    <img src="{{ $resized.RelPermalink }}" 
+         alt="{{ $alt }}" 
+         loading="lazy" />
+  </picture>
 {{- else -}}
-  {{- if eq $type "full" -}}
-    {{- with resources.Get $src -}}
-      {{- $orig := . -}}
-      {{- $webp := .Resize (printf "%dx%d webp" $orig.Width $orig.Height) -}}
-      <picture>
-        <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-        <img src="{{ $orig.RelPermalink }}" 
-             alt="{{ $alt }}"
-             loading="{{ $loading }}"
-             width="{{ $orig.Width }}" height="{{ $orig.Height }}" />
-      </picture>
-    {{- else -}}
-      <div style="background: #f0f0f0; padding: 20px; text-align: center; color: #666;">{{ $alt }} (image not found)</div>
-    {{- end -}}
-  {{- else -}}
-  {{/* ALL OTHER IMAGE TYPES: Hugo Fill with Center anchor */}}
-  {{- $dimensions := "" -}}
-  {{- if eq $type "home" -}}
-    {{- $w := ($.Site.Params.images.home_width | default 480) -}}
-    {{- $h := ($.Site.Params.images.home_height | default 200) -}}
-    {{- $w = mul $w $scale -}}
-    {{- $h = mul $h $scale -}}
-    {{- $dimensions = printf "%dx%d" $w $h -}}
-  {{- else if eq $type "list" -}}
-    {{- $w := ($.Site.Params.images.list_width | default 120) -}}
-    {{- $h := ($.Site.Params.images.list_height | default 155) -}}
-    {{- $w = mul $w $scale -}}
-    {{- $h = mul $h $scale -}}
-    {{- $dimensions = printf "%dx%d" $w $h -}}
-  {{- else if eq $type "header" -}}
-    {{- $w := ($.Site.Params.images.header_width | default 500) -}}
-    {{- $h := ($.Site.Params.images.header_height | default 300) -}}
-    {{- $w = mul $w $scale -}}
-    {{- $h = mul $h $scale -}}
-    {{- $dimensions = printf "%dx%d" $w $h -}}
-  {{- else -}}
-    {{- $dimensions = $type -}}
-  {{- end -}}
-
-  {{- with resources.Get $src -}}
-    {{- $webpParams := printf "%s %s webp" $dimensions $anchor -}}
-    {{- if $quality -}}
-      {{- $webpParams = printf "%s %s webp q%s" $dimensions $anchor $quality -}}
-    {{- end -}}
-    
-    {{- $webp := .Fill $webpParams -}}
-    {{- $fallback := .Fill (printf "%s %s" $dimensions $anchor) -}}
-    
-    <picture>
-      <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-      <img src="{{ $fallback.RelPermalink }}" 
-           alt="{{ $alt }}"
-           loading="{{ $loading }}" 
-           width="{{ $fallback.Width }}" height="{{ $fallback.Height }}" />
-    </picture>
-  {{- else -}}
-    <div style="background: #f0f0f0; padding: 20px; text-align: center; color: #666;">{{ $alt }} (image not found)</div>
-  {{- end -}}
-  {{- end -}}
+  <div>Image not found: {{ $src }}</div>
 {{- end -}}
 
 

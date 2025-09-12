@@ -8,25 +8,29 @@
     </header>
     
     <section class="content-list">
-        {{ range .RegularPages.ByDate.Reverse }}
+        {{ $pages := .RegularPages.ByDate.Reverse }}
+        {{ $paginator := .Paginate $pages 12 }}
+        {{ range $paginator.Pages }}
         <a href="{{ .RelPermalink }}" class="content-item">
             {{ if .Params.cover_image }}
             <div class="content-item-image">
-                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title) "type" "list" "loading" "lazy") }}
+                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
             </div>
             {{ end }}
             <div class="content-item-content">
-                <h4>{{ .Title }}</h4>
+                <h3>{{ .Title }}</h3>
                 <div class="content-meta">
-                    <div class="content-meta-line">
+                    <h4 class="content-subtitle">
                         {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}
-                    </div>
-                    {{ with .Params.journal }}<cite>{{ . }}</cite>{{ end }}
+                    </h4>
+                    {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
                 </div>
             </div>
         </a>
         {{ end }}
     </section>
+    
+    {{ template "_internal/pagination.html" . }}
 </article>
 {{ end }}
 
@@ -35,4 +39,6 @@
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
     {{ $pageCSS := resources.Get "css/publications.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+    {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
 {{ end }} 
