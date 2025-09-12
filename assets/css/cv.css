@@ -11,13 +11,21 @@
 
 /* Mobile styles */
 @media (max-width: 768px) {
-  .cv-download-mobile {
-    display: block;
-  }
-  
   .pdf-viewer {
-    block-size: 500px;
-    min-block-size: 350px;
+    inline-size: 95vw;
+    max-inline-size: 100%;
+    block-size: 300px;
+    min-block-size: 250px;
+    margin-inline: auto;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .pdf-viewer {
+    inline-size: 98vw;
+    block-size: 250px;
+    min-block-size: 200px;
   }
 }
 

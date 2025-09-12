@@ -19,3 +19,8 @@
     {{ $meetwithmeCSS := resources.Get "css/meetwithme.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $meetwithmeCSS.RelPermalink }}">
 {{ end }}
+
+{{ define "page-js" }}
+    <!-- Load Calendly script for meeting pages -->
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+{{ end }}
