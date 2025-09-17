@@ -11,6 +11,26 @@
   border: none;
 }
 
-.cv-download-link {
-  text-decoration: none;
+/* Show desktop header by default, hide mobile header */
+.cv-header-desktop {
+  display: block;
+}
+
+.cv-header-mobile {
+  display: none;
+}
+
+/* Mobile: Hide iframe and switch headers */
+@media (max-width: 775px) {
+  .cv-header-desktop {
+    display: none;
+  }
+  
+  .cv-header-mobile {
+    display: block;
+  }
+  
+  .pdf-viewer {
+    display: none;
+  }
 }

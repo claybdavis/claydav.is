@@ -306,7 +306,7 @@
 }
 
 /* Large mobile landscape for home page */
-@media (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 850px) and (orientation: landscape) {
   .home-page .nav {
     gap: 16px;
     padding: 20px 24px;

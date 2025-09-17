@@ -78,9 +78,9 @@
   --layout-width-wide: 1200px;
   --layout-width-narrow: 900px;
   
-  /* Responsive Breakpoints */
-  --breakpoint-mobile: 768px;
-  --breakpoint-tablet: 900px;
+  /* Responsive Breakpoints (Documentation Only - CSS vars don't work in media queries) */
+  --breakpoint-mobile: 850px;   /* Used as: @media (max-width: 850px) */
+  --breakpoint-tablet: 900px;   /* Used as: @media (max-width: 900px) */
   
   /* Transitions */
   --transition-fast: 0.15s ease;
@@ -393,8 +393,8 @@ ul ul {
   }
 }
 
-/* Home page: Keep original 768px breakpoint */
-@media (max-width: 768px) {
+/* Home page: Use mobile breakpoint */
+@media (max-width: 850px) {
   .home-page .stack-on-mobile {
     grid-template-columns: 1fr !important;
   }

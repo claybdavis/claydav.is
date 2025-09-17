@@ -18,7 +18,8 @@
         </h2>
         {{ end }}
         <h1>{{ .Title }}</h1>
-        <h2><a href="{{ $pdfPath | relURL }}" download class="cv-download-link">Download</a> my most recent CV <a href="{{ $pdfPath | relURL }}" download class="cv-download-link">↓</a></h2>
+        <h2 class="cv-header-desktop"><a href="{{ $pdfPath | relURL }}" download class="cv-download-link">Download</a> my most recent CV <a href="{{ $pdfPath | relURL }}" download class="cv-download-link">↓</a></h2>
+        <h2 class="cv-header-mobile"><a href="{{ $pdfPath | relURL }}" download class="cv-download-link">View my most recent CV in a new tab</a> <a href="{{ $pdfPath | relURL }}" download class="cv-download-link">↗</a></h2>
     </header>
 
     {{ if $pdfFound }}
