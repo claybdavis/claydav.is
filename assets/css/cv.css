@@ -1,31 +1,16 @@
-/* ==========================================================================
-   PDF Viewer Styles
-   ========================================================================== */
-
 .pdf-viewer {
-  position: relative;
   inline-size: 100%;
-  aspect-ratio: 8.5 / 11; /* Standard US Letter paper ratio */
+  aspect-ratio: 8.5 / 11;
   min-block-size: 300px;
-  max-block-size: min(70vh, 700px);
+  max-block-size: min(75vh, 750px);
 }
 
 .pdf-viewer iframe {
   inline-size: 100%;
   block-size: 100%;
   border: none;
-  display: block;
-  zoom: 0.5;
 }
 
-.pdf-viewer p {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  margin: 0;
-  padding-block: var(--space-xl);
-  padding-inline: var(--space-xl);
-  border-radius: var(--border-radius-sm);
+.cv-download-link {
+  text-decoration: none;
 }

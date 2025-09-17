@@ -64,7 +64,7 @@
 .name-link {
   color: var(--color-text);
   text-decoration: none;
-  border-block-end: var(--divider-line-thickness) solid transparent;
+  border-block-end: var(--link-thickness-header) solid transparent;
   transition: color var(--transition-base), border-color var(--transition-base);
 }
 
@@ -72,22 +72,12 @@
 @media (max-width: 900px) {
   .content-page .header-name:has(.page-indicator) .name-link {
     color: var(--color-primary);
+    border-block-end: var(--link-thickness-header) solid var(--color-primary);
+    transition: color var(--transition-base), border-color var(--transition-base);
   }
 
   .content-page .header-name:has(.page-indicator) .name-link:hover,
   .content-page .header-name:has(.page-indicator) .name-link:focus {
-    color: var(--color-primary-medium);
-    border-block-end-color: var(--color-primary-medium);
-  }
-}
-
-@media (max-width: 768px) {
-  .home-page .header-name:has(.page-indicator) .name-link {
-    color: var(--color-primary);
-  }
-
-  .home-page .header-name:has(.page-indicator) .name-link:hover,
-  .home-page .header-name:has(.page-indicator) .name-link:focus {
     color: var(--color-primary-medium);
     border-block-end-color: var(--color-primary-medium);
   }
@@ -247,7 +237,7 @@
 }
 
 /* Mobile styles for home page */
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .home-page .hamburger-btn {
     display: flex;
   }

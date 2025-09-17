@@ -29,11 +29,11 @@
   border-block-end: none;
 }
 
-/* Apply underline only to the title on hover for links (not awards) */
-a.content-item:hover h3,
-a.content-item:focus h3 {
-  text-decoration: underline;
-  text-decoration-color: var(--color-primary-medium);
+/* Keep content items black on hover and remove borders */
+a.content-item:hover,
+a.content-item:focus {
+  color: var(--color-text);
+  border-block-end: none;
 }
 
 .content-item-image {
