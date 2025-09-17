@@ -72,7 +72,7 @@
 @media (max-width: 900px) {
   .content-page .header-name:has(.page-indicator) .name-link {
     color: var(--color-primary);
-    border-block-end: var(--link-thickness-header) solid var(--color-primary);
+    border-block-end: var(--link-thickness-header) solid var(--color-primary-medium);
     transition: color var(--transition-base), border-color var(--transition-base);
   }
 
