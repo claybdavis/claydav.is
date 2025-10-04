@@ -33,8 +33,8 @@ title = 'Clay Davis'
   
   [[menu.main]]
     name = "Research"
-    url = "/publications/"
-    pageRef = "/publications"
+    url = "/research/"
+    pageRef = "/research"
     weight = 10
   
   [[menu.main]]

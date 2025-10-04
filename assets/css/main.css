@@ -1,4 +1,26 @@
 /* ==========================================================================
+   Font Imports - Inlined for Hugo asset pipeline
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Sentient-Variable';
+  src: url('../fonts/Sentient-Variable.woff2') format('woff2'),
+       url('../fonts/Sentient-Variable.woff') format('woff');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sentient-VariableItalic';
+  src: url('../fonts/Sentient-VariableItalic.woff2') format('woff2'),
+       url('../fonts/Sentient-VariableItalic.woff') format('woff');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: italic;
+}
+
+/* ==========================================================================
    CSS Custom Properties - Logical Groupings
    ========================================================================== */
 
@@ -15,13 +37,17 @@
   --color-shadow-medium: rgba(0, 0, 0, 0.1);
 
   /* Typography */
-  --font-family-serif: 'Source Serif Pro', serif;
+  --font-family-serif: 'Sentient-Variable', Georgia, 'Times New Roman', serif;
   --font-family-sans: 'Geologica', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
   --font-weight-light: 300;
   --font-weight-regular: 400;
-  --font-weight-medium: 450;
-  --font-weight-semibold: 500;
-  --font-weight-bold: 550;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
   --line-height-tight: 1.25;
   --line-height-base: 1.5;
   --line-height-loose: 1.75;
@@ -29,7 +55,7 @@
   /* Typography Sizes */
   --font-size-sm: 0.75rem;
   --font-size-base: 1rem;
-  --font-size-lg: 1.1rem;
+  --font-size-lg: 1.15rem;
   --font-size-xl: 1.35rem;
   --font-size-2xl: 1.55rem;
   --font-size-3xl: 2.5rem;
@@ -63,9 +89,9 @@
   /* Home page images (use original smaller height) */
   --size-home-image-height: 155px;
   
-  /* Awards images (landscape) */
-  --size-awards-width: 210px;
-  --size-awards-height: 160px;
+  /* Landscape images (when landscape: 1 is set) */
+  --size-landscape-width: 210px;
+  --size-landscape-height: 160px;
   
   /* Publication images (single pages) */
   --size-publication-max-height: 500px;  /* Max height constraint for publication images */
@@ -109,7 +135,13 @@ html {
 
 body {
   font-family: var(--font-family-sans);
+  font-optical-sizing: auto;
   font-weight: var(--font-weight-light);
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0,
+    "CRSV" 0,
+    "SHRP" 0;
   line-height: var(--line-height-base);
   color: var(--color-text);
   background-color: var(--color-surface);
@@ -150,58 +182,101 @@ body {
 
 h1 {
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
+  font-variation-settings:
+    "SHRP" 75;
 }
 
 h2 {
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   line-height: var(--line-height-tight);
   color: var(--color-text-secondary);
   margin-block-end: var(--space-sm);
+  font-variation-settings:
+    "SHRP" 50;
 }
 
 h3 {
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
+  font-variation-settings:
+    "SHRP" 25;
 }
 
 h4 {
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
+  font-variation-settings:
+    "SHRP" 25;
 }
 
 h5 {
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   line-height: var(--line-height-tight);
   margin-block-end: var(--space-sm);
+  font-variation-settings:
+    "SHRP" 25;
 }
 
 p {
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-base);
+  font-variation-settings: 'wght' 400;
   margin-block-end: var(--space-base);
 }
 
+p em {
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-regular);
+  font-style: italic;
+  font-size: var(--font-size-base);
+  font-variation-settings: 'wght' 400;
+  margin-block-end: var(--space-base);
+}
+
+p strong {
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-bold);
+  font-style: normal;
+  font-size: var(--font-size-base);
+  font-variation-settings: 'wght' 700;
+  margin-block-end: var(--space-base);
+}
+
+p em strong, p strong em {
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-bold);
+  font-style: italic;
+  font-size: var(--font-size-base);
+  font-variation-settings: 'wght' 700;
+  margin-block-end: var(--space-base);
+}
+
+
 strong {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
 }
 
 em {
   font-weight: var(--font-weight-light);
-  font-style: italic;
+  font-variation-settings:
+    "slnt" -10;
 }
 
 strong em,
 em strong {
-  font-weight: var(--font-weight-semibold);
-  font-style: italic;
+  font-weight: var(--font-weight-medium);
+  font-variation-settings:
+    "slnt" -10;
 }
 
 /* ==========================================================================

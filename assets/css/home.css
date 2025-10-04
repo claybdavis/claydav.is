@@ -164,6 +164,7 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
+  object-position: top; /* Crop from the top instead of center */
 }
 
 /* Adjust content spacing for cards */

@@ -28,10 +28,16 @@
     <section class="recent-publications-section">
         <h1>Recent Publications</h1>
         <div class="content-list stack-on-mobile">
-            {{ $allPublications := where (where .Site.RegularPages "Section" "publications") ".Params.date" "!=" nil }}
-            {{ $sortedPublications := sort $allPublications ".Params.date" "desc" }}
+        {{ $allPublications := where (where .Site.RegularPages "Section" "research") ".Params.date" "!=" nil }}
+        {{ $filteredPublications := slice }}
+        {{ range $allPublications }}
+          {{ if and (not (in .RelPermalink "/awards/")) (not (in .RelPermalink "/data/")) }}
+            {{ $filteredPublications = $filteredPublications | append . }}
+          {{ end }}
+        {{ end }}
+        {{ $sortedPublications := sort $filteredPublications ".Params.date" "desc" }}
             {{ range first 3 $sortedPublications }}
-            <a href="{{ .RelPermalink }}" class="content-item">
+            <a href="{{ .RelPermalink }}" class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>
                 {{ if .Params.cover_image }}
                 <div class="content-item-image">
                     {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}

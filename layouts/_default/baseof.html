@@ -41,8 +41,7 @@
     {{ end }}
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,CRSV,SHRP@-12..0,100..900,0..1,0..100&display=swap" rel="stylesheet">
 
     <!-- Umami visitor tracking (GDPR compliant with no cookies) -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="4d9a9c3f-8181-49c7-bf14-77d7346abb6a"></script>
@@ -58,7 +57,7 @@
             <div class="header-content">
                 <div class="header-name">
                     <h1 class="site-title"><a href="{{ "/" | relURL }}" class="name-link link">Clay Davis</a></h1>
-                    {{ if and (not .IsHome) (or (eq .RelPermalink "/publications/") (eq .RelPermalink "/teaching/")) }}
+                    {{ if and (not .IsHome) (or (eq .RelPermalink "/research/") (eq .RelPermalink "/teaching/")) }}
                     {{ range .Site.Menus.main }}
                       {{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
                     <button class="page-indicator" type="button" aria-label="Open navigation menu"> › {{ .Name }}</button>
@@ -107,5 +106,18 @@
     
     <!-- Page-specific JavaScript -->
     {{ block "page-js" . }}{{ end }}
+
+    <!-- Umami outbound link tracking -->
+    <script type="text/javascript">
+        (() => {
+            const name = 'outbound-link-click';
+            document.querySelectorAll('a').forEach(a => {
+                if (a.host !== window.location.host && !a.getAttribute('data-umami-event')) {
+                    a.setAttribute('data-umami-event', name);
+                    a.setAttribute('data-umami-event-url', a.href);
+                }
+            });
+        })();
+    </script>
 </body>
 </html> 

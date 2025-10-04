@@ -1,0 +1,101 @@
+{{ define "main" }}
+<article class="page-content">
+    <header class="page-header">
+        <h2 class="breadcrumb">
+            <a href="{{ .Parent.Parent.RelPermalink }}">Research</a> › <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a>
+        </h2>
+        <h1>{{ .Title }}</h1>
+        {{ if or .Params.author .Date }}
+        <h2>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Date }} · {{ end }}{{ with .Date }}{{ .Format "2006" }}{{ end }}
+            </time>
+        </h2>
+        {{ end }}
+        {{ with .Description }}
+        <h3>{{ . }}</h3>
+        {{ end }}
+    </header>
+    
+    {{ if .Content }}
+    <section class="content-body">
+        {{ .Content }}
+    </section>
+    {{ end }}
+    
+    {{ $hasData := false }}
+    {{ range $i := (seq 1 50) }}
+        {{ $dataLocationKey := printf "data_location_%d" $i }}
+        {{ if index $.Params $dataLocationKey }}
+            {{ $hasData = true }}
+            {{ break }}
+        {{ end }}
+    {{ end }}
+    
+    {{ if $hasData }}
+    <section class="data-visualization">
+        {{ range $i := (seq 1 50) }}
+            {{ $dataLocationKey := printf "data_location_%d" $i }}
+            {{ $dataTitleKey := printf "data_title_%d" $i }}
+            {{ $dataDescriptionKey := printf "data_description_%d" $i }}
+            
+            {{ $dataLocation := index $.Params $dataLocationKey }}
+            {{ $dataTitle := index $.Params $dataTitleKey }}
+            {{ $dataDescription := index $.Params $dataDescriptionKey }}
+            
+            {{ if $dataLocation }}
+                {{ if $dataTitle }}
+                <h3 class="data-title">{{ $dataTitle }}</h3>
+                {{ end }}
+                
+                {{ if $dataDescription }}
+                <h4 class="data-description">{{ $dataDescription }}</h4>
+                {{ end }}
+                
+                {{ $dataPath := strings.TrimPrefix "static/" $dataLocation }}
+                {{ $fileExt := path.Ext $dataLocation }}
+                {{ if eq $fileExt ".pdf" }}
+                <div class="pdf-container">
+                    <iframe src="/{{ $dataPath }}" 
+                            frameborder="0" 
+                            width="100%" 
+                            height="100%"
+                            title="{{ $.Title }} - Document {{ $i }}">
+                        <p>Your browser does not support PDF viewing. <a href="/{{ $dataPath }}">Download the PDF directly</a>.</p>
+                    </iframe>
+                </div>
+                {{ else }}
+                <div class="visualization-container">
+                    <iframe src="/{{ $dataPath }}" 
+                            frameborder="0" 
+                            width="100%" 
+                            height="100%"
+                            title="{{ $.Title }} - Visualization {{ $i }}">
+                        <p>Your browser does not support iframes. <a href="/{{ $dataPath }}">View the visualization directly</a>.</p>
+                    </iframe>
+                </div>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    </section>
+    {{ end }}
+</article>
+{{ end }}
+
+{{ define "page-css" }}
+    <style>
+        .pdf-container, .visualization-container {
+            inline-size: 100%;
+            block-size: 80vh;
+            min-block-size: 600px;
+            max-block-size: min(90vh, 900px);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .pdf-container iframe, .visualization-container iframe {
+            inline-size: 100%;
+            block-size: 100%;
+            border: none;
+        }
+    </style>
+{{ end }}

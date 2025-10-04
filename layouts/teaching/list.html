@@ -5,28 +5,28 @@
         {{ .Content }}
     </div>
     
-
-    
     <div class="content-layout stack-on-mobile">
-        <!-- Left pane - Syllabi -->
-        <section id="syllabi" class="syllabi-section">
-            {{ $syllabiSection := "" }}
-            {{ range .Sections }}
-                {{ if in .File.Dir "syllabi" }}
-                    {{ $syllabiSection = . }}
-                {{ end }}
-            {{ end }}
-            {{ if $syllabiSection }}
-            {{ with $syllabiSection }}
+        <!-- Left column - Teaching Sections -->
+        <div>
+            {{ range .Sections.ByWeight }}
+            {{ if ne .Title "Student Evaluations" }}
+        {{ $sectionId := "" }}
+        {{ if eq .Title "Syllabi" }}
+            {{ $sectionId = "syllabi" }}
+        {{ else }}
+            {{ $sectionId = (.Title | urlize) }}
+        {{ end }}
+        <section id="{{ $sectionId }}">
             <header class="page-header">
                 <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
                 {{ with .Params.description }}
-                <h2>{{ . }}</h2>
+                <h2>{{ . | markdownify }}</h2>
                 {{ end }}
             </header>
             <div class="content-list">
-                {{ range .RegularPages.ByDate.Reverse }}
-                <a href="{{ .RelPermalink }}" class="content-item">
+                {{ $pages := .RegularPages.ByDate.Reverse }}
+                {{ range $pages }}
+                <a href="{{ .RelPermalink }}" class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>
                     {{ if .Params.cover_image }}
                     <div class="content-item-image">
                         {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
@@ -36,50 +36,18 @@
                         <h3>{{ .Title }}</h3>
                         <div class="content-meta">
                             <h4 class="content-subtitle">
-                                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "2006" . }}</time>{{ end }}
+                                {{ if .Params.author }}{{ .Params.author }}{{ else if .Params.organization }}{{ .Params.organization }}{{ end }}{{ if and (or .Params.author .Params.organization) .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ if $.Params.journal }}{{ dateFormat "2006" . }}{{ else }}{{ dateFormat "January 2006" . }}{{ end }}</time>{{ end }}
                             </h4>
+                            {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
                         </div>
                     </div>
                 </a>
                 {{ end }}
             </div>
-            {{ end }}
-            {{ end }}
-            
-            <!-- Awards Section -->
-            <section class="awards-section">
-                {{ $awardsSection := site.GetPage "/awards" }}
-                {{ $teachingAwards := slice }}
-                {{ if $awardsSection }}
-                    {{ $teachingAwards = where $awardsSection.RegularPages ".Params.category" "eq" "teaching" }}
-                {{ end }}
-                {{ if $teachingAwards }}
-                    <header class="page-header">
-                        <h1>Teaching Awards</h1>
-                        <h2>A complete list of awards is available <a href="/cv/" class="link">on my CV</a></h2>
-                    </header>
-                    <div class="content-list">
-                        {{ range $teachingAwards.ByDate.Reverse }}
-                        <div class="content-item">
-                            {{ if .Params.images }}
-                            <div class="content-item-image">
-                                {{ partial "image-processor.html" (dict "src" (printf "images/%s" (index .Params.images 0)) "alt" .Title) }}
-                            </div>
-                            {{ end }}
-                            <div class="content-item-content">
-                                <h3>{{ .Title }}</h3>
-                                <div class="content-meta">
-                                    <h4 class="content-subtitle">
-                                        {{ with .Params.organization }}{{ . }}{{ end }}{{ if and .Params.organization .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ . }}">{{ dateFormat "January 2006" . }}</time>{{ end }}
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                        {{ end }}
-                    </div>
-                {{ end }}
-            </section>
         </section>
+            {{ end }}
+            {{ end }}
+        </div>
         
         <!-- Right pane - Evaluations and Awards -->
         <aside class="sidebar-section">
@@ -272,7 +240,7 @@
     <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
     <script>
         // Initialize pagination for sections that need it
-        {{ range .Sections }}
+        {{ range .Sections.ByWeight }}
           {{ $itemCount := len .RegularPages }}
           {{ $pageSize := 5 }}
           {{ $sectionId := (.Title | urlize) }}

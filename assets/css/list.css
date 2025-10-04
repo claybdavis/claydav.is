@@ -46,6 +46,12 @@ a.content-item:focus {
   align-self: flex-start; /* prevent stretch to content height */
 }
 
+/* Landscape layout for items with landscape: 1 parameter */
+.content-item[data-landscape="1"] .content-item-image {
+  inline-size: var(--size-landscape-width);
+  block-size: var(--size-landscape-height);
+}
+
 /* CSS controls all image sizing and cropping */
 .content-item-image img {
   inline-size: 100%;
@@ -60,11 +66,6 @@ a.content-item:focus {
   block-size: 100%;
 }
 
-/* Awards sections use landscape orientation */
-.awards-section .content-item-image {
-  inline-size: var(--size-awards-width);
-  block-size: var(--size-awards-height);
-}
 
 
 .content-item-content {
@@ -115,15 +116,13 @@ a.content-item:focus {
   align-items: start;
 }
 
-/* ==========================================================================
-   Awards-specific styles
-   ========================================================================== */
-
-/* Tighter spacing between title and subtitle for awards only */
-.awards-section .content-item-content > h3 {
-  margin-block-end: var(--space-xs);
+/* Remove bottom margins from intro content sections (teaching, default lists) */
+.teaching-content,
+.section-content {
+  margin-block-end: 0;
 }
 
-.awards-section .content-meta {
-  margin-block-start: 0;
+/* Remove bottom margin from research overview header (research has different layout) */
+.research-overview .page-header {
+  margin-block-end: 0;
 }

@@ -2,15 +2,10 @@
    Teaching Page Styles
    ========================================================================== */
 
-.teaching-content {
-  margin-block-end: 0;
-}
-
-/* Teaching layout now uses shared .content-layout from list.css */
+/* Teaching layout uses shared .content-layout from list.css */
 
 .syllabi-section h2,
-.evaluations-section h2,
-.awards-section h2 {
+.evaluations-section h2 {
   margin-block-end: var(--space-lg);
 }
 

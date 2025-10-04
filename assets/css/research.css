@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Research Styles
+   ========================================================================== */
+
+/* Two-column layout for single research pages */
+.publication-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* Text column wider than image column */
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Publication images section */
+.publication-images {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns images to the top */
+  gap: var(--space-lg);
+}
+
+.cover-image,
+.first-page-image {
+  margin: 0;
+}
+
+.cover-image img,
+.first-page-image img {
+  max-inline-size: 100%;
+  max-block-size: var(--size-publication-max-height);
+  block-size: auto;
+  border-radius: var(--border-radius-sm);
+  inline-size: auto;
+  object-fit: contain; /* Maintain aspect ratio when constrained by max height */
+}
+
+/* Remove underline from image links while keeping them clickable */
+.cover-image a,
+.first-page-image a {
+  border-block-end: none;
+  cursor: pointer;
+}
+
+.cover-image a:hover,
+.first-page-image a:hover {
+  border-block-end: none;
+}
+
+/* Hide mobile-only research summary on desktop */
+.research-overview-mobile {
+  display: none;
+}
+
+/* On mobile, stack to a single column */
+@media (max-width: 900px) {
+  /* Individual publication pages */
+  .publication-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Research list page - show mobile summary at top, hide desktop overview */
+  .research-overview-mobile {
+    display: block;
+  }
+  
+  .research-overview-desktop {
+    display: none;
+  }
+}
