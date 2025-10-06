@@ -10,7 +10,7 @@
         </h2>
         {{ end }}
         <h1>{{ .Title }}</h1>
-        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}<cite>{{ . }}</cite> &middot;{{ end }}{{ if and .Params.volume .Params.issue }} {{ .Params.volume }}({{ .Params.issue }}) &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}{{ if and .Params.page_start .Params.page_end }}, pp. {{ .Params.page_start }}-{{ .Params.page_end }}{{ end }}</h2>
+        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}{{ if $.Params.external_url }}<a href="{{ $.Params.external_url }}" target="_blank" rel="noopener noreferrer"><cite>{{ . }}</cite> ↗</a>{{ else }}<cite>{{ . }}</cite>{{ end }} &middot;{{ end }}{{ if and .Params.volume .Params.issue }} {{ .Params.volume }}({{ .Params.issue }}) &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}{{ if and .Params.page_start .Params.page_end }}, pp. {{ .Params.page_start }}-{{ .Params.page_end }}{{ end }}</h2>
         {{ with .Params.description }}
         <h2>{{ . }}</h2>
         {{ end }}
