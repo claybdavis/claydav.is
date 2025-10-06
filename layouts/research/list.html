@@ -86,9 +86,6 @@
         {{ range .Sections.ByWeight }}
           {{ $itemCount := len .RegularPages }}
           {{ $pageSize := 5 }}
-          {{ if eq .Title "Peer-Reviewed Papers" }}
-            {{ $pageSize = 3 }}
-          {{ end }}
           {{ $sectionId := (.Title | urlize) }}
           {{ if gt $itemCount $pageSize }}
         initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
