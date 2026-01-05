@@ -140,7 +140,6 @@ body {
   font-style: normal;
   font-variation-settings:
     "slnt" 0,
-    "CRSV" 0,
     "SHRP" 0;
   line-height: var(--line-height-base);
   color: var(--color-text);
