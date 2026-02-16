@@ -18,6 +18,9 @@
         {{ else }}
         <h1>{{ .Title }}</h1>
         {{ end }}
+        {{ with .Params.description }}
+        <h2>{{ . | markdownify }}</h2>
+        {{ end }}
     </header>
     {{ end }}
 
