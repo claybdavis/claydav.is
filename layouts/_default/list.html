@@ -1,92 +1,108 @@
 {{ define "main" }}
 <article class="page-content">
-    {{ if .Sections }}
-    <!-- Composite page with subsections -->
+    {{/* ================================================================
+         Shared setup
+         ================================================================ */}}
+    {{ $customSections := slice }}
+    {{ range .Params.custom_sections }}
+        {{ $customSections = $customSections | append .name }}
+    {{ end }}
+    {{ $hasSidebar := gt (len $customSections) 0 }}
+    {{ $isComposite := gt (len .Sections) 0 }}
+
+    {{/* Regular list pages get a header; composite pages don't */}}
+    {{ if not $isComposite }}
     <header class="page-header">
-        <h1>{{ .Title }}</h1>
-        {{ with .Params.description }}
-        <h2>{{ . | markdownify }}</h2>
-        {{ end }}
-    </header>
-    
-    <div class="section-content">
-        {{ .Content }}
-    </div>
-    
-    <div class="content-layout stack-on-mobile">
-        {{ range .Sections }}
-        {{ $sectionId := (.Title | urlize) }}
-        <section id="{{ $sectionId }}">
-            <header class="page-header">
-                <h1><a href="{{ .RelPermalink }}" class="link">{{ .Title }}</a></h1>
-                {{ with .Params.description }}
-                <h2>{{ . | markdownify }}</h2>
-                {{ end }}
-            </header>
-            <div class="content-list">
-                {{ $pages := .RegularPages.ByDate.Reverse }}
-                {{ range $pages }}
-                <a href="{{ .RelPermalink }}" class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>
-                    {{ if .Params.cover_image }}
-                    <div class="content-item-image">
-                        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
-                    </div>
-                    {{ end }}
-                    <div class="content-item-content">
-                        <h3>{{ .Title }}</h3>
-                        <div class="content-meta">
-                            <h4 class="content-subtitle">
-                                {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}
-                            </h4>
-                            {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
-                        </div>
-                    </div>
-                </a>
-                {{ end }}
-            </div>
-        </section>
-        {{ end }}
-    </div>
-    {{ else }}
-    <!-- Regular list page - use Hugo pagination -->
-    <header class="page-header">
-        {{ if .Parent }}
+        {{ if and .Parent .Parent.Section }}
         <h1><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Section | title }}</a> › {{ .Title }}</h1>
         {{ else }}
         <h1>{{ .Title }}</h1>
         {{ end }}
-        {{ with .Params.description }}
-        <h2>{{ . | markdownify }}</h2>
-        {{ end }}
     </header>
-    
-    <div>
-        {{ .Content }}
+    {{ end }}
+
+    {{ if or $isComposite .Content $hasSidebar }}
+    {{/* ================================================================
+         Two-column layout (shared by composite and regular pages)
+         ================================================================ */}}
+    <div class="content-layout stack-on-mobile">
+        {{ if .Truncated }}
+        <div class="mobile-summary">
+            {{ .Summary }}
+        </div>
+        {{ end }}
+
+        {{ if not $hasSidebar }}
+        {{ if .Content }}
+        <div class="section-content">
+            {{ with .Params.description }}<h1>{{ . | markdownify }}</h1>{{ end }}
+            {{ .Content }}
+        </div>
+        {{ end }}
+        {{ end }}
+
+        <div class="sections-column">
+            {{ if $hasSidebar }}
+            {{ if .Content }}
+            <div class="section-content">
+                {{ with .Params.description }}<h1>{{ . | markdownify }}</h1>{{ end }}
+                {{ .Content }}
+            </div>
+            {{ end }}
+            {{ end }}
+
+            {{ if $isComposite }}
+            {{/* Composite: subsections with their own headers and lists */}}
+            {{ range .Sections.ByWeight }}
+            {{ if not .Params.hide_in_parent }}
+            {{ $sectionId := (.Title | urlize) }}
+            <section id="{{ $sectionId }}">
+                <header class="page-header">
+                    <h1>{{ if not .Params.non_clickable }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h1>
+                    {{ with .Params.description }}
+                    <h2>{{ . | markdownify }}</h2>
+                    {{ end }}
+                </header>
+                <div class="content-list">
+                    {{ range .RegularPages.ByDate.Reverse }}
+                    {{ partial "content-item.html" . }}
+                    {{ end }}
+                </div>
+            </section>
+            {{ end }}
+            {{ end }}
+            {{ else }}
+            {{/* Regular: paginated flat list */}}
+            {{ if .RegularPages }}
+            {{ $paginator := .Paginate .RegularPages 10 }}
+            <div class="content-list">
+                {{ range $paginator.Pages }}
+                {{ partial "content-item.html" . }}
+                {{ end }}
+            </div>
+            {{ template "_internal/pagination.html" . }}
+            {{ end }}
+            {{ end }}
+        </div>
+
+        {{ if $hasSidebar }}
+        <aside class="sidebar-section">
+            {{ range $customSections }}
+            {{ partial (printf "%s.html" .) $ }}
+            {{ end }}
+        </aside>
+        {{ end }}
     </div>
-    
+
+    {{ else }}
+    {{/* No content, no sidebar, not composite: simple single-column list */}}
     {{ if .RegularPages }}
     {{ $paginator := .Paginate .RegularPages 10 }}
     <div class="content-list">
         {{ range $paginator.Pages }}
-        <a href="{{ .RelPermalink }}" class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>
-            {{ if .Params.cover_image }}
-            <div class="content-item-image">
-                {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
-            </div>
-            {{ end }}
-            <div class="content-item-content">
-                <h3>{{ .Title }}</h3>
-                <div class="content-meta">
-                    <h4 class="content-subtitle">
-                        {{ with .Params.author }}{{ . }}{{ end }}{{ if and .Params.author .Params.date }} &middot; {{ end }}{{ with .Params.date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}
-                    </h4>
-                    {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
-                </div>
-            </div>
-        </a>
+        {{ partial "content-item.html" . }}
         {{ end }}
     </div>
-    
     {{ template "_internal/pagination.html" . }}
     {{ end }}
     {{ end }}
@@ -96,27 +112,41 @@
 {{ define "page-css" }}
     {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
-    {{ if .Sections }}
     {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
+    {{/* Load CSS for custom sections */}}
+    {{ range .Params.custom_sections }}
+        {{ $customCSS := resources.Get (printf "css/%s.css" .name) }}
+        {{ with $customCSS }}
+        {{ $css := . | resources.Minify | resources.Fingerprint }}
+        <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+        {{ end }}
     {{ end }}
 {{ end }}
 
 {{ define "page-js" }}
     {{ if .Sections }}
-    <!-- Include section pagination JavaScript for composite pages -->
     {{ $sectionPaginationJS := resources.Get "js/section-pagination.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
     <script>
-        // Initialize pagination for sections that need it
-        {{ range .Sections }}
+        {{ range .Sections.ByWeight }}
+          {{ if not .Params.hide_in_parent }}
           {{ $itemCount := len .RegularPages }}
           {{ $pageSize := 5 }}
           {{ $sectionId := (.Title | urlize) }}
           {{ if gt $itemCount $pageSize }}
         initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
           {{ end }}
+          {{ end }}
         {{ end }}
     </script>
     {{ end }}
-{{ end }} 
+    {{/* Load JS for custom sections */}}
+    {{ range .Params.custom_sections }}
+        {{ $customJS := resources.Get (printf "js/%s.js" .name) }}
+        {{ with $customJS }}
+        {{ $js := . | resources.Minify | resources.Fingerprint }}
+        <script src="{{ $js.RelPermalink }}" defer></script>
+        {{ end }}
+    {{ end }}
+{{ end }}

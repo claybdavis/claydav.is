@@ -1,6 +1,13 @@
 ---
 title: "Awards"
 description: "A complete list of awards is available [on my CV](/cv/)"
-weight: 4
-type: "_default"
+weight: 3
+build:
+  render: never
+  list: local
+cascade:
+  non_clickable: true
+  build:
+    render: never
+    list: local
 ---

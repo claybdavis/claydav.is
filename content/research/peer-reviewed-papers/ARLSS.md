@@ -7,10 +7,11 @@ issue:
 page start: 1
 page end: 26
 author: "Carol Heimer and Clay Davis"
-tags: ["public health","epidemics","World Health Organization","emergency powers","COVID-19","coronavirus disease 2019","International Health Regulations"]
 cover_image: "publications/annualreview_cover.png"
 first_page_image:
 external_url: "https://doi.org/10.1146/annurev-lawsocsci-050420-113513"
+doi: "10.1146/annurev-lawsocsci-050420-113513"
+show_badges: true
 ---
 ## Abstract
 

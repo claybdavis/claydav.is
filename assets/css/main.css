@@ -33,42 +33,36 @@
   --color-gray: {{ .Site.Params.colors.gray }};
   --color-text: {{ .Site.Params.colors.text }};
   --color-text-secondary: {{ .Site.Params.colors.text_secondary }};
-  --color-shadow-light: rgba(0, 0, 0, 0.05);
-  --color-shadow-medium: rgba(0, 0, 0, 0.1);
 
   /* Typography */
   --font-family-serif: 'Sentient', Georgia, serif;
   --font-family-sans: 'Geologica', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-weight-thin: 100;
-  --font-weight-extralight: 200;
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
-  --line-height-tight: 1.25;
-  --line-height-base: 1.5;
-  --line-height-loose: 1.75;
+  --line-height-tight: 1.2;     /* H1 - tighter at larger sizes */
+  --line-height-snug: 1.3;      /* H2 - moderate tightening */
+  --line-height-heading: 1.4;   /* H3-H6 - balanced readability */
+  --line-height-base: 1.5;      /* Body text */
 
-  /* Typography Sizes */
-  --font-size-sm: 0.75rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.15rem;
-  --font-size-xl: 1.35rem;
-  --font-size-2xl: 1.55rem;
-  --font-size-3xl: 2.5rem;
+  /* Typography Sizes - Compressed scale (~1.18 step ratio) */
+  --font-size-sm: 0.8rem;       /* 12.8px - small text */
+  --font-size-base: 1rem;       /* 16px - body text */
+  --font-size-lg: 1.15rem;      /* 18.4px - H3 */
+  --font-size-xl: 1.35rem;      /* 21.6px - H2 */
+  --font-size-2xl: 1.6rem;      /* 25.6px - H1 */
+  --font-size-3xl: 2.5rem;      /* 40px - home page name */
 
-  /* Spacing System */
-  --space-xs: 0.25rem;   /* Small internal spacing (scores, meta) */
-  --space-sm: 0.5rem;    /* Compact spacing (contact icons, cards) */
-  --space-base: 1rem;    /* Standard spacing (navigation, basic elements) */
-  --space-md: 0.75rem;   /* Medium spacing (between base and lg) */
-  --space-lg: 1.5rem;    /* Content spacing (content items, publications) */
-  --space-xl: 2.5rem;    /* Section spacing (major layout sections) */
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
+  /* Spacing System - 8px grid with 4px half-steps (industry standard) */
+  --space-xs: 0.25rem;   /* 4px - Fine adjustments, icon spacing */
+  --space-sm: 0.5rem;    /* 8px - Compact spacing, tight elements */
+  --space-md: 0.75rem;   /* 12px - Small gaps */
+  --space-base: 1rem;    /* 16px - Standard spacing, base rhythm */
+  --space-lg: 1.5rem;    /* 24px - Content spacing, vertical rhythm */
+  --space-xl: 2rem;      /* 32px - Section spacing */
+  --space-2xl: 2.5rem;   /* 40px - Major sections */
 
   /* Border Radius */
   --border-radius-sm: 5px;
@@ -98,7 +92,6 @@
   
   /* Non-image sizes for layout and widgets */
   --size-widget-sm: 500px;          /* Calendly widget minimum height */
-  --size-header-offset: 200px;      /* PDF viewer height calculation */
 
   /* Layout */
   --layout-width-wide: 1200px;
@@ -109,13 +102,11 @@
   --breakpoint-tablet: 900px;   /* Used as: @media (max-width: 900px) */
   
   /* Transitions */
-  --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
   --transition-slow: 0.3s ease;
 
-  /* Links */
-  --link-thickness: 2.5px;
-  --link-thickness-header: 3.5px;
+  /* Links - proportional to text size */
+  --link-thickness: 0.15em; /* Scales with font size */
 }
 
 /* ==========================================================================
@@ -163,12 +154,23 @@ body {
 
 .main {
   flex-grow: 1;
+  margin-block-start: var(--space-md);
 }
 
 .page-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
   max-inline-size: var(--layout-width-narrow);
   margin-inline: auto;
-  padding-block-end: var(--space-xl); /* Add noticeable bottom spacing */
+  margin-block-end: var(--space-2xl);
+}
+
+/* All sections use the same vertical layout as page-content */
+section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
 .content-page .page-content {
@@ -176,128 +178,78 @@ body {
 }
 
 /* ==========================================================================
-   Typography
+   Typography - Headings
    ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--line-height-heading);
+}
 
 h1 {
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
+  font-variation-settings: "SHRP" 75;
   line-height: var(--line-height-tight);
-  margin-block-end: var(--space-sm);
-  font-variation-settings:
-    "SHRP" 75;
 }
 
 h2 {
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-semibold);
+  font-variation-settings: "SHRP" 50;
+  line-height: var(--line-height-snug);
   color: var(--color-text-secondary);
-  margin-block-end: var(--space-sm);
-  font-variation-settings:
-    "SHRP" 50;
+}
+
+h3, h4, h5, h6 {
+  font-variation-settings: "SHRP" 25;
 }
 
 h3 {
   font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+h4, h5, h6 {
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
-  margin-block-end: var(--space-sm);
-  font-variation-settings:
-    "SHRP" 25;
 }
 
-h4 {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-tight);
-  margin-block-end: var(--space-sm);
-  font-variation-settings:
-    "SHRP" 25;
+h5, h6 {
+  font-style: italic;
 }
 
-h5 {
-  font-size: var(--font-size-base);
+h6 {
   font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-tight);
-  margin-block-end: var(--space-sm);
-  font-variation-settings:
-    "SHRP" 25;
 }
+
+/* ==========================================================================
+   Typography - Body Text
+   ========================================================================== */
 
 p {
   font-family: var(--font-family-serif);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-base);
-  font-variation-settings: 'wght' 400;
-  margin-block-end: var(--space-base);
+  line-height: var(--line-height-base);
 }
-
-p em {
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-regular);
-  font-style: italic;
-  font-size: var(--font-size-base);
-  font-variation-settings: 'wght' 400;
-  margin-block-end: var(--space-base);
-}
-
-p strong {
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-bold);
-  font-style: normal;
-  font-size: var(--font-size-base);
-  font-variation-settings: 'wght' 700;
-  margin-block-end: var(--space-base);
-}
-
-p em strong, p strong em {
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-bold);
-  font-style: italic;
-  font-size: var(--font-size-base);
-  font-variation-settings: 'wght' 700;
-  margin-block-end: var(--space-base);
-}
-
 
 strong {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
 }
 
 em {
-  font-weight: var(--font-weight-light);
-  font-variation-settings:
-    "slnt" -10;
-}
-
-strong em,
-em strong {
-  font-weight: var(--font-weight-medium);
-  font-variation-settings:
-    "slnt" -10;
+  font-style: italic;
 }
 
 /* ==========================================================================
-   Blockquote
+   Typography - Blockquotes
    ========================================================================== */
 
-.blockquote {
+blockquote {
   background: var(--color-gray);
-  margin: 0;
   padding: var(--space-base);
 }
 
-.blockquote p {
-  margin: 0;
-}
-
-.blockquote p:not(:last-child) {
-  margin-block-end: var(--space-sm);
-}
-
-.blockquote footer {
-  margin-block-start: var(--space-sm);
+blockquote footer {
   color: var(--color-text-secondary);
 }
 
@@ -305,7 +257,6 @@ em strong {
    Links
    ========================================================================== */
 
-.link,
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -313,71 +264,92 @@ a {
   transition: color var(--transition-base), border-color var(--transition-base);
 }
 
-.link:hover,
 a:hover,
-.link:focus,
 a:focus {
   color: var(--color-primary-medium);
   border-block-end-color: var(--color-primary-medium);
-  outline: none;
-  box-shadow: none;
+  outline: 0;
 }
 
-.link:focus-visible,
-a:focus-visible {
-  outline: none;
-  box-shadow: none;
-}
-
-/* Links in headers use thicker borders */
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
-.page-header a {
-  border-block-end-width: var(--link-thickness-header);
-}
 
 /* ==========================================================================
    Shared Page Header Styles
    ========================================================================== */
 
 .page-header {
-  position: relative;
-  padding-block-end: 0;
-  margin-block-start: var(--space-lg);
-  margin-block-end: var(--space-lg);
-}
-
-.page-header::after {
-  content: none;
-  display: none;
-}
-
-/* Reduce spacing between h1 and h2 within headers */
-.page-header h1 {
-  margin-block-end: var(--space-xs);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ==========================================================================
-   List Styling
+   Typography - Lists
    ========================================================================== */
 
-ul {
-  margin-block-start: var(--space-base);
-  margin-block-end: var(--space-base);
-  padding-inline-start: var(--space-xl);
+ul, ol {
+  padding-inline-start: var(--space-2xl);
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+  list-style-position: outside;
 }
 
 li {
-  margin-block-end: var(--space-sm);
+  padding-inline-start: var(--space-sm);
 }
 
-li:last-child {
-  margin-block-end: 0;
+/* Nested lists use tighter spacing to show hierarchy */
+ul ul, ol ol, ul ol, ol ul {
+  padding-inline-start: var(--space-lg);
 }
 
-/* Nested lists */
-ul ul {
-  margin-block-start: var(--space-sm);
-  margin-block-end: 0;
+/* ==========================================================================
+   Typography - Lobotomized Owl Spacing
+   ========================================================================== */
+
+/* Flow-based spacing - only apply the owl to flow content (text/typography).
+   This is a refined "lobotomized owl" that targets headings, paragraphs, lists,
+   list items, and blockquotes. UI components (buttons, cards, widgets) are 
+   excluded and handle their own spacing via gap.
+   
+   Optimized for long-form prose (Bringhurst / Andy Bell conventions):
+   - General flow:      1em (standard prose spacing, scales with font size)
+   - Heading → body:    0.375em (heading groups tightly with its content)
+   - Heading → heading: 0.25em (title/subtitle pairing)
+   - List items:        0.375em (compact but readable)
+   - Sublists:          0.25em (tighter to show nesting)
+   
+   The em unit creates natural asymmetry around headings: a heading's larger
+   font-size makes its 1em margin-top bigger than the following paragraph's
+   0.375em margin-top, producing a ~3.6:1 ratio (matching Bringhurst's
+   recommendation of more space above, less below). */
+
+:is(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote) + :is(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote) {
+  margin-block-start: 1em;
+}
+
+/* Headings group tightly with their content */
+:is(h1, h2, h3, h4) + :is(p, ul, ol, blockquote) {
+  margin-block-start: 0.375em;
+}
+
+/* Consecutive headings pair as title/subtitle */
+:is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: 0.25em;
+}
+
+/* List items: compact but readable */
+li + li {
+  margin-block-start: 0.375em;
+}
+
+/* Sublists: tighter to show nesting hierarchy */
+li > :is(ul, ol) {
+  margin-block-start: 0.25em;
+}
+
+/* Disable owl margins inside flex/gap containers — gap handles spacing there */
+:is(.content-meta, .content-item-content, .evaluation-comments, .evaluation-scores) > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote) {
+  margin-block-start: 0;
 }
 
 /* ==========================================================================
@@ -388,38 +360,25 @@ ul ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
   color: var(--color-text);
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-base);
-  padding-block: var(--space-sm);
-  padding-inline: var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--border-radius-sm);
-  background-color: var(--color-gray);
+  background: var(--color-gray);
   transition: all var(--transition-base);
-  flex-shrink: 0;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  box-shadow: none;
+  border: 0;
+  border-block-end: 0; /* Override logical border from a{} */
   cursor: pointer;
   width: 100%;
 }
 
 .btn:hover,
 .btn:focus {
-  background-color: var(--color-primary-light);
+  background: var(--color-primary-light);
   color: var(--color-text-secondary);
-  outline: none;
-  border: none;
-  box-shadow: none;
-}
-
-.btn:focus-visible {
-  outline: none;
-  border: none;
-  box-shadow: none;
+  border-block-end: 0;
+  outline: 0;
 }
 
 /* ==========================================================================
@@ -444,7 +403,7 @@ ul ul {
 
 .score-text {
   font-size: var(--font-size-base);
-  color: white;
+  color: var(--color-surface);
   position: absolute;
   left: var(--space-sm);
   top: 50%;
@@ -455,26 +414,13 @@ ul ul {
    Shared Responsive Utilities
    ========================================================================== */
 
-/* Mobile: Stack all grid layouts to single column */
 @media (max-width: 900px) {
-  .content-page .stack-on-mobile {
-    grid-template-columns: 1fr !important;
-  }
-  
-  /* Center images when stacked */
-  .content-page .stack-on-mobile .profile-image {
-    justify-self: center;
-  }
-}
-
-/* Home page: Use mobile breakpoint */
-@media (max-width: 850px) {
+  .content-page .stack-on-mobile,
   .home-page .stack-on-mobile {
     grid-template-columns: 1fr !important;
   }
   
-  /* Center images when stacked */
-  .home-page .stack-on-mobile .profile-image {
+  .stack-on-mobile .profile-image {
     justify-self: center;
   }
 }

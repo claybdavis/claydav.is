@@ -41,7 +41,7 @@
     {{ end }}
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,SHRP@-12..0,100..900,0..100&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,SHRP@-12..0,100..900,0..100&display=swap" rel="stylesheet">
 
     <!-- Umami visitor tracking (GDPR compliant with no cookies) -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="4d9a9c3f-8181-49c7-bf14-77d7346abb6a"></script>
@@ -56,7 +56,7 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-name">
-                    <h1 class="site-title"><a href="{{ "/" | relURL }}" class="name-link link">Clay Davis</a></h1>
+                    <h1 class="site-title"><a href="{{ "/" | relURL }}" class="name-link">Clay Davis</a></h1>
                     {{ if and (not .IsHome) (or (eq .RelPermalink "/research/") (eq .RelPermalink "/teaching/")) }}
                     {{ range .Site.Menus.main }}
                       {{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
@@ -89,7 +89,7 @@
         
         {{ if not .IsHome }}
         <footer class="footer">
-            <nav class="contact-icons">
+            <nav class="contact-icons" aria-label="Contact information">
                 <a href="mailto:cdavis@u.northwestern.edu" class="contact-link" aria-label="Email">
                     {{ readFile "static/icons/email.svg" | safeHTML }}
                 </a>

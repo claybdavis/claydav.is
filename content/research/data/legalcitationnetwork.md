@@ -1,11 +1,13 @@
 ---
-title: "Network visualization of court cases analyzed in my dissertation"
+title: "Visualizations and data from my research on judicial treatment of statistical evidence"
 description:
 date: 2024-10-01
-data_location_1: "static/data/citation_network.html"
-data_title_1: "Citation network of federal district court cases at which at least one party moved to exclude the testimony of opposing experts based on meta-analysis"
-data_description_1: ""
 cover_image: "data/citationnetwork.png"
 author: "Clay Davis"
 landscape: 1
 ---
+### Network of citations between US federal district court cases at which judges evaluated meta-analyses
+
+#### Toggle cases by circuit, practice area, and more with the menu in the top right of the visualization.
+
+{{< embed "citation_network.html" >}}

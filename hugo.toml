@@ -18,6 +18,11 @@ title = 'Clay Davis'
   text = "#000000"
   text_secondary = "#333333"
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [pagination]
   disableAliases = false
   pagerSize = 10
@@ -35,22 +40,22 @@ title = 'Clay Davis'
     name = "Research"
     url = "/research/"
     pageRef = "/research"
-    weight = 10
+    weight = 20
   
   [[menu.main]]
     name = "CV"
     url = "/cv/"
     pageRef = "/cv"
-    weight = 20
+    weight = 30
     
   [[menu.main]]
     name = "Teaching"
     url = "/teaching/"
     pageRef = "/teaching"
-    weight = 30
+    weight = 40
     
   [[menu.main]]
     name = "Meet with me"
     url = "/meetwithme/officehours/"
     pageRef = "/meetwithme/officehours"
-    weight = 40
+    weight = 50

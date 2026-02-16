@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
-        if (document.querySelector('.teaching-layout:hover')) {
+        if (document.querySelector('.evaluation-carousel:hover')) {
             if (e.key === 'ArrowRight') nextEvaluation();
             if (e.key === 'ArrowLeft') prevEvaluation();
         }

@@ -53,9 +53,15 @@
   margin-inline: auto;
 }
 
+/* Profile text already contains flow content handled by owl */
 .profile-text {
   display: flex;
   flex-direction: column;
+}
+
+/* Tighter paragraph spacing on homepage */
+.home-page p + p {
+  margin-block-start: 0.35em;
 }
 
 .profile-image {
@@ -71,21 +77,11 @@
   block-size: auto;
 }
 
-.profile-bio p {
-  margin-block-start: 0;
-  margin-block-end: var(--space-sm);
-}
-
-.profile-bio p:last-child {
-  margin-block-end: 0;
-}
-
 /* ==========================================================================
    Contact Section
    ========================================================================== */
 
 .contact-section {
-  margin-inline: auto;
   text-align: center;
 }
 
@@ -113,26 +109,10 @@
 }
 
 /* ==========================================================================
-   Unified Section Spacing
-   ========================================================================== */
-
-.contact-section {
-  margin-block: var(--space-sm);
-}
-
-.recent-publications-section {
-  margin-block-start: var(--space-sm);
-  margin-block-end: 0; /* Remove space before line */
-}
-
-.reading-social-section {
-  margin-block-start: 0; /* Remove space above line */
-  margin-block-end: var(--space-sm);
-}
-
-/* ==========================================================================
    Recent Publications Section
    ========================================================================== */
+
+/* .recent-publications-section inherits flex column + gap from generic section rule */
 
 /* Transform list layout into 3-column grid */
 .recent-publications-section .content-list {
@@ -173,25 +153,19 @@
   text-align: left;
 }
 
-.recent-publications-section .content-item-content > h3 {
-  margin-block-start: 0;
-}
-
-
-
 /* ==========================================================================
    Reading & Social Section
    ========================================================================== */
 
 .reading-social-section {
   position: relative;
-  padding-top: var(--space-lg);
+  padding-block-start: var(--space-2xl);
 }
 
 .reading-social-section::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: var(--space-lg);
   left: 0;
   right: 0;
   height: var(--divider-line-thickness);

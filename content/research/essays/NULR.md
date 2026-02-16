@@ -7,7 +7,6 @@ issue:
 page start:
 page end:
 author: "Clay Davis"
-tags: ["public health","epidemics","emergency powers","COVID-19","coronavirus disease 2019",]
 cover_image: "publications/NULR_cover.png"
 first_page_image:
 external_url: "https://blog.northwesternlaw.review/?p=2040"

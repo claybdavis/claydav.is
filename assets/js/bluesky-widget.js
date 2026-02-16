@@ -4,15 +4,10 @@
  */
 
 async function loadBlueskyPosts() {
-    console.log('Loading Bluesky posts...');
     const container = document.getElementById('bluesky-feed');
     const handle = 'claydav.is';
     
-    console.log('Container found:', container);
-    if (!container) {
-      console.error('bluesky-feed container not found');
-      return;
-    }
+    if (!container) return;
     
     try {
       // Resolve handle to DID
@@ -167,7 +162,7 @@ async function loadBlueskyPosts() {
       }
       
       const postHtml = `
-        <div class="blockquote">
+        <blockquote>
           <p>${quoteInfo}${isQuoteReply ? '<br>' : ''}<span style="${isQuoteReply ? 'margin-top: var(--space-sm); display: block;' : ''}">"${processedText}"</span></p>
           <footer>
             — <a href="https://bsky.app/profile/${handle}" 
@@ -176,7 +171,7 @@ async function loadBlueskyPosts() {
                </a>
             • <span style="margin-left: var(--space-xs);">${postDate}</span>
           </footer>
-        </div>
+        </blockquote>
       `;
       
       container.innerHTML = postHtml;

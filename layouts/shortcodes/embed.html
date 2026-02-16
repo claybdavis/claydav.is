@@ -1,0 +1,17 @@
+{{- $file := .Get 0 -}}
+{{- $ext := path.Ext $file -}}
+{{- $path := printf "/data/%s" $file -}}
+<div class="{{ if eq $ext ".pdf" }}pdf-container{{ else }}visualization-container{{ end }}" style="inline-size:100%;block-size:80vh;min-block-size:600px;max-block-size:min(90vh,900px);">
+  <iframe src="{{ $path }}" 
+          frameborder="0" 
+          width="100%" 
+          height="100%"
+          style="inline-size:100%;block-size:100%;border:none;"
+          title="{{ $file }}">
+    {{ if eq $ext ".pdf" }}
+    <p>Your browser does not support PDF viewing. <a href="{{ $path }}">Download the PDF directly</a>.</p>
+    {{ else }}
+    <p>Your browser does not support iframes. <a href="{{ $path }}">View the visualization directly</a>.</p>
+    {{ end }}
+  </iframe>
+</div>

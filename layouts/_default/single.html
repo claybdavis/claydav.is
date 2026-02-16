@@ -10,10 +10,7 @@
         </h2>
         {{ end }}
         <h1>{{ .Title }}</h1>
-        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}{{ if $.Params.external_url }}<a href="{{ $.Params.external_url }}" target="_blank" rel="noopener noreferrer"><cite>{{ . }}</cite> ↗</a>{{ else }}<cite>{{ . }}</cite>{{ end }} &middot;{{ end }}{{ if and .Params.volume .Params.issue }} {{ .Params.volume }}({{ .Params.issue }}) &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}{{ if and .Params.page_start .Params.page_end }}, pp. {{ .Params.page_start }}-{{ .Params.page_end }}{{ end }}</h2>
-        {{ with .Params.description }}
-        <h2>{{ . }}</h2>
-        {{ end }}
+        <h2>{{ with .Params.author }}{{ . }} &middot;{{ end }} {{ with .Params.journal }}{{ if $.Params.external_url }}<a href="{{ $.Params.external_url }}" target="_blank" rel="noopener noreferrer"><cite>{{ . }}</cite> ↗</a>{{ else }}<cite>{{ . }}</cite>{{ end }} &middot;{{ end }}{{ if and .Params.volume .Params.issue }} {{ .Params.volume }}({{ .Params.issue }}) &middot;{{ end }}{{ with .Params.date }} <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006" }}</time>{{ end }}{{ if and .Params.page_start .Params.page_end }}, pp. {{ .Params.page_start }}-{{ .Params.page_end }}{{ end }}{{ with .Params.description }} &middot; {{ . }}{{ end }}</h2>
     </header>
     
     <section class="publication-layout">
@@ -21,7 +18,7 @@
             {{ .Content }}
         </div>
         
-        {{ if or .Params.cover_image .Params.first_page_image }}
+        {{ if or .Params.cover_image .Params.first_page_image .Params.doi }}
         <div class="publication-images{{ if .Params.landscape }} landscape{{ end }}">
             {{ if .Params.cover_image }}
             <div class="cover-image">
@@ -45,6 +42,16 @@
                 {{ end }}
             </div>
             {{ end }}
+            {{ if and .Params.doi .Params.show_badges }}
+            <div class="metric-badges">
+                <div class="dimensions-badge">
+                    {{ partial "dimensionsbadge.html" (dict "doi" .Params.doi) }}
+                </div>
+                <div class="altmetric-badge">
+                    {{ partial "allmetricbadge.html" (dict "doi" .Params.doi) }}
+                </div>
+            </div>
+            {{ end }}
         </div>
         {{ end }}
     </section>
@@ -52,8 +59,6 @@
 {{ end }}
 
 {{ define "page-css" }}
-    {{ $listCSS := resources.Get "css/list.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
-    {{ $pageCSS := resources.Get "css/research.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $pageCSS.RelPermalink }}">
+    {{ $singleCSS := resources.Get "css/single.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $singleCSS.RelPermalink }}">
 {{ end }} 

@@ -7,10 +7,11 @@ issue: 8
 page start:
 page end:
 author: "Clay Davis"
-tags: ["healthcare policy","meta-analysis","evidence-based medicine"]
 cover_image: "publications/shi_cover.png"
 first_page_image:
 external_url: "https://doi.org/10.1111/1467-9566.70089"
+doi: "10.1111/1467-9566.70089"
+show_badges: false
 ---
 ## Abstract
 

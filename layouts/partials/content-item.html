@@ -1,0 +1,19 @@
+{{/* content-item.html — Renders a single content list item.
+     Context: a Page object. */}}
+{{ $page := . }}
+{{ if not .Params.non_clickable }}<a href="{{ .RelPermalink }}" class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>{{ else }}<div class="content-item"{{ if eq .Params.landscape 1 }} data-landscape="1"{{ end }}>{{ end }}
+    {{ if .Params.cover_image }}
+    <div class="content-item-image">
+        {{ partial "image-processor.html" (dict "src" (printf "images/%s" .Params.cover_image) "alt" (printf "Cover image for %s" .Title)) }}
+    </div>
+    {{ end }}
+    <div class="content-item-content">
+        <h3>{{ .Title }}</h3>
+        <div class="content-meta">
+            <h4 class="content-subtitle">
+                {{ if .Params.author }}{{ .Params.author }}{{ else if .Params.organization }}{{ .Params.organization }}{{ end }}{{ if and (or .Params.author .Params.organization) .Params.date }} &middot; {{ end }}{{ with $page.Params.date }}<time datetime="{{ dateFormat "2006-01-02" . }}">{{ if $page.Params.journal }}{{ dateFormat "2006" . }}{{ else }}{{ dateFormat "January 2006" . }}{{ end }}</time>{{ end }}
+            </h4>
+            {{ with .Params.journal }}<h4 class="content-subtitle"><cite>{{ . }}</cite></h4>{{ end }}
+        </div>
+    </div>
+{{ if not .Params.non_clickable }}</a>{{ else }}</div>{{ end }}
