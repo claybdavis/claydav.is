@@ -7,6 +7,9 @@
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <meta name="author" content="{{ .Site.Params.author }}">
 
+    <!-- Canonical, Open Graph, and Twitter Card metadata -->
+    {{ partial "head-meta.html" . }}
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" sizes="any" href='data:image/svg+xml;base64,{{ (partial "favicon.html" .) | base64Encode }}'>
     {{ with .Site.Params.colors.primary }}
@@ -27,7 +30,9 @@
     <!-- Resource hints for external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    {{ if hugo.IsProduction }}
     <link rel="preconnect" href="https://cloud.umami.is">
+    {{ end }}
     {{ if .IsHome }}
     <!-- Preload critical homepage image -->
     <link rel="preload" as="image" href="{{ (resources.Get "images/profile/clay-davis.jpg").Resize "400x webp" | relURL }}" type="image/webp">
@@ -44,7 +49,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,SHRP@-12..0,100..900,0..100&display=swap" rel="stylesheet">
 
     <!-- Umami visitor tracking (GDPR compliant with no cookies) -->
+    {{ if hugo.IsProduction }}
     <script defer src="https://cloud.umami.is/script.js" data-website-id="4d9a9c3f-8181-49c7-bf14-77d7346abb6a"></script>
+    {{ end }}
     
     <!-- Hamburger Menu JavaScript -->
     {{ $hamburgerJS := resources.Get "js/hamburger-menu.js" | resources.Minify | resources.Fingerprint }}
@@ -98,6 +105,7 @@
     {{ block "page-js" . }}{{ end }}
 
     <!-- Umami outbound link tracking -->
+    {{ if hugo.IsProduction }}
     <script type="text/javascript">
         (() => {
             const name = 'outbound-link-click';
@@ -109,5 +117,6 @@
             });
         })();
     </script>
+    {{ end }}
 </body>
 </html> 

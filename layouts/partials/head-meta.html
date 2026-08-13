@@ -1,0 +1,53 @@
+{{- /*
+  head-meta.html — canonical URL, Open Graph, and Twitter Card metadata.
+
+  Description fallback chain: page .Description → site .Site.Params.description
+  (mirrors the <meta name="description"> behaviour in baseof.html).
+
+  Share image: page .Params.cover_image (processed from assets/images/) with a
+  fallback to the profile photo. Images live under assets/images/, so we fetch
+  them with resources.Get and emit an absolute URL via .Permalink.
+*/ -}}
+
+{{- /* Description with site-level fallback */ -}}
+{{- $desc := .Site.Params.description -}}
+{{- with .Description }}{{ $desc = . }}{{ end -}}
+
+{{- /* og:title / twitter:title — content title, site title on the home page */ -}}
+{{- $title := cond .IsHome .Site.Title .Title -}}
+
+{{- /* og:type — "article" for dated regular pages (e.g. publications), else "website" */ -}}
+{{- $ogType := "website" -}}
+{{- if and .IsPage (not .Date.IsZero) }}{{ $ogType = "article" }}{{ end -}}
+
+{{- /* Share image — page cover (processed) or profile-photo fallback; always absolute */ -}}
+{{- $img := resources.Get "images/profile/clay-davis.jpg" -}}
+{{- $hasCover := false -}}
+{{- with .Params.cover_image -}}
+  {{- with resources.Get (printf "images/%s" .) -}}
+    {{- $img = . -}}
+    {{- $hasCover = true -}}
+  {{- end -}}
+{{- end -}}
+{{- $ogImage := "" -}}
+{{- with $img }}{{ $ogImage = ($img.Resize "1200x").Permalink }}{{ end -}}
+
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ $ogType }}">
+{{- with $ogImage }}
+<meta property="og:image" content="{{ . }}">
+{{- end }}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="{{ if $hasCover }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{- with $ogImage }}
+<meta name="twitter:image" content="{{ . }}">
+{{- end }}
