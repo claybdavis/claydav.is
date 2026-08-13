@@ -1,0 +1,11 @@
+{{/* paginated-list.html — one page of content items plus the page-number links.
+     Context: a list page. Items per page comes from [pagination] in hugo.toml. */}}
+{{ if .RegularPages }}
+{{ $paginator := .Paginate .RegularPages }}
+<div class="content-list">
+    {{ range $paginator.Pages }}
+    {{ partial "content-item.html" . }}
+    {{ end }}
+</div>
+{{ template "_internal/pagination.html" . }}
+{{ end }}

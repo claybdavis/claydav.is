@@ -3,11 +3,11 @@
     {{/* ================================================================
          Shared setup
          ================================================================ */}}
-    {{ $customSections := slice }}
-    {{ range .Params.custom_sections }}
-        {{ $customSections = $customSections | append .name }}
-    {{ end }}
-    {{ $hasSidebar := gt (len $customSections) 0 }}
+    {{/* A page can name a sidebar in its front matter, e.g. the teaching page
+         sets sidebar: "evaluation-carousel" to show layouts/partials/evaluation-carousel.html
+         in a right-hand column (its css/js load below, matched by the same name). */}}
+    {{ $sidebar := .Params.sidebar }}
+    {{ $hasSidebar := ne $sidebar nil }}
     {{ $isComposite := gt (len .Sections) 0 }}
 
     {{/* Regular list pages get a header; composite pages don't */}}
@@ -55,6 +55,8 @@
             {{ $sectionId := (.Title | urlize) }}
             <section id="{{ $sectionId }}">
                 <header class="page-header">
+                    {{/* Link the section title only when the section has its own
+                         page (awards pages are never built, so no link there) */}}
                     <h1>{{ if .RelPermalink }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h1>
                     {{ with .Params.description }}
                     <h2>{{ . | markdownify }}</h2>
@@ -70,38 +72,20 @@
             {{ end }}
             {{ else }}
             {{/* Regular: paginated flat list */}}
-            {{ if .RegularPages }}
-            {{ $paginator := .Paginate .RegularPages 10 }}
-            <div class="content-list">
-                {{ range $paginator.Pages }}
-                {{ partial "content-item.html" . }}
-                {{ end }}
-            </div>
-            {{ template "_internal/pagination.html" . }}
-            {{ end }}
+            {{ partial "paginated-list.html" . }}
             {{ end }}
         </div>
 
         {{ if $hasSidebar }}
         <aside class="sidebar-section">
-            {{ range $customSections }}
-            {{ partial (printf "%s.html" .) $ }}
-            {{ end }}
+            {{ partial (printf "%s.html" $sidebar) $ }}
         </aside>
         {{ end }}
     </div>
 
     {{ else }}
     {{/* No content, no sidebar, not composite: simple single-column list */}}
-    {{ if .RegularPages }}
-    {{ $paginator := .Paginate .RegularPages 10 }}
-    <div class="content-list">
-        {{ range $paginator.Pages }}
-        {{ partial "content-item.html" . }}
-        {{ end }}
-    </div>
-    {{ template "_internal/pagination.html" . }}
-    {{ end }}
+    {{ partial "paginated-list.html" . }}
     {{ end }}
 </article>
 {{ end }}
@@ -111,10 +95,9 @@
     <link rel="stylesheet" href="{{ $listCSS.RelPermalink }}">
     {{ $paginationCSS := resources.Get "css/pagination.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $paginationCSS.RelPermalink }}">
-    {{/* Load CSS for custom sections */}}
-    {{ range .Params.custom_sections }}
-        {{ $customCSS := resources.Get (printf "css/%s.css" .name) }}
-        {{ with $customCSS }}
+    {{/* A named sidebar also loads its stylesheet, if one exists (assets/css/<name>.css) */}}
+    {{ with .Params.sidebar }}
+        {{ with resources.Get (printf "css/%s.css" .) }}
         {{ $css := . | resources.Minify | resources.Fingerprint }}
         <link rel="stylesheet" href="{{ $css.RelPermalink }}">
         {{ end }}
@@ -126,22 +109,21 @@
     {{ $sectionPaginationJS := resources.Get "js/section-pagination.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $sectionPaginationJS.RelPermalink }}"></script>
     <script>
+        {{/* Sections with more than $pageSize items get page-number controls */}}
+        {{ $pageSize := 5 }}
         {{ range .Sections.ByWeight }}
           {{ if not .Params.hide_in_parent }}
-          {{ $itemCount := len .RegularPages }}
-          {{ $pageSize := 5 }}
           {{ $sectionId := (.Title | urlize) }}
-          {{ if gt $itemCount $pageSize }}
+          {{ if gt (len .RegularPages) $pageSize }}
         initSectionPagination('{{ $sectionId }}', {{ $pageSize }});
           {{ end }}
           {{ end }}
         {{ end }}
     </script>
     {{ end }}
-    {{/* Load JS for custom sections */}}
-    {{ range .Params.custom_sections }}
-        {{ $customJS := resources.Get (printf "js/%s.js" .name) }}
-        {{ with $customJS }}
+    {{/* A named sidebar also loads its script, if one exists (assets/js/<name>.js) */}}
+    {{ with .Params.sidebar }}
+        {{ with resources.Get (printf "js/%s.js" .) }}
         {{ $js := . | resources.Minify | resources.Fingerprint }}
         <script src="{{ $js.RelPermalink }}" defer></script>
         {{ end }}

@@ -1,6 +1,8 @@
 {{ define "main" }}
-{{/* Serve whatever single PDF lives in static/cv/. If more than one is present,
-     take the alphabetically-first so the build stays deterministic. */}}
+{{/* This page shows whatever single PDF lives in static/cv/.
+     To update the CV: drag the new PDF into static/cv/ and delete the old one.
+     (If several PDFs are ever present, the build uses the alphabetically-first
+     and prints a warning.) */}}
 {{ $pdfs := slice }}
 {{ range (os.ReadDir "static/cv") }}
     {{ if hasSuffix .Name ".pdf" }}{{ $pdfs = $pdfs | append .Name }}{{ end }}

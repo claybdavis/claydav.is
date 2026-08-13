@@ -11,7 +11,7 @@
     {{ partial "head-meta.html" . }}
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href='data:image/svg+xml;base64,{{ (partial "favicon.html" .) | base64Encode }}'>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     {{ with .Site.Params.colors.primary }}
     <meta name="theme-color" content="{{ . }}">
     {{ end }}
@@ -64,12 +64,10 @@
             <div class="header-content">
                 <div class="header-name">
                     <h1 class="site-title"><a href="{{ "/" | relURL }}" class="name-link">Clay Davis</a></h1>
-                    {{ if and (not .IsHome) (or (eq .RelPermalink "/research/") (eq .RelPermalink "/teaching/")) }}
-                    {{ range .Site.Menus.main }}
-                      {{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
-                    <button class="page-indicator" type="button" aria-label="Open navigation menu"> › {{ .Name }}</button>
-                      {{ end }}
-                    {{ end }}
+                    {{/* On the research and teaching pages, show "› Research" or
+                         "› Teaching" next to the name (visible on mobile; opens the menu) */}}
+                    {{ if or (eq .RelPermalink "/research/") (eq .RelPermalink "/teaching/") }}
+                    <button class="page-indicator" type="button" aria-label="Open navigation menu"> › {{ .Title }}</button>
                     {{ end }}
                 </div>
                 

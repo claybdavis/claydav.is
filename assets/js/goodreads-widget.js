@@ -27,6 +27,9 @@ async function loadCurrentBooks() {
 
     const targetUrl = `https://www.goodreads.com/review/list_rss/${encodeURIComponent(userId)}?shelf=currently-reading`;
 
+    // The two proxies answer differently: corsproxy returns the feed as-is,
+    // while allorigins wraps it in JSON as { contents: "..." }. Normalize both
+    // to the { contents } shape.
     async function fetchViaProxy(base) {
       const url = base + encodeURIComponent(targetUrl);
       const resp = await fetch(url, { signal: AbortSignal.timeout(8000) });

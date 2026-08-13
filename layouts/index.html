@@ -18,8 +18,12 @@
     <section class="recent-publications-section">
         <h1>Recent Publications</h1>
         <div class="content-list stack-on-mobile">
-        {{ $publications := where (where (where .Site.RegularPages "Section" "research") ".Params.date" "!=" nil) ".Params.hide_on_home" "!=" true }}
-            {{ range first 3 (sort $publications ".Params.date" "desc") }}
+        {{/* The three newest dated research items (papers and essays).
+             Items marked hide_on_home (the data visualizations) are skipped. */}}
+        {{ $research := where .Site.RegularPages "Section" "research" }}
+        {{ $research = where $research ".Params.date" "!=" nil }}
+        {{ $research = where $research ".Params.hide_on_home" "!=" true }}
+            {{ range first 3 (sort $research ".Params.date" "desc") }}
             {{ partial "content-item.html" . }}
             {{ end }}
         </div>
