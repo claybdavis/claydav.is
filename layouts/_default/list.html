@@ -29,12 +29,6 @@
          Two-column layout (shared by composite and regular pages)
          ================================================================ */}}
     <div class="content-layout stack-on-mobile">
-        {{ if .Truncated }}
-        <div class="mobile-summary">
-            {{ .Summary }}
-        </div>
-        {{ end }}
-
         {{ if not $hasSidebar }}
         {{ if .Content }}
         <div class="section-content">
@@ -61,7 +55,7 @@
             {{ $sectionId := (.Title | urlize) }}
             <section id="{{ $sectionId }}">
                 <header class="page-header">
-                    <h1>{{ if not .Params.non_clickable }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h1>
+                    <h1>{{ if .RelPermalink }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h1>
                     {{ with .Params.description }}
                     <h2>{{ . | markdownify }}</h2>
                     {{ end }}

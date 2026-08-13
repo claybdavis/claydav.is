@@ -8,6 +8,11 @@ title = 'Clay Davis'
 [params]
   author = "Clay Davis"
   description = "PhD candidate in sociology and Mellon Cluster Fellow in science studies at Northwestern University"
+
+[params.contact]
+  email = "cdavis@u.northwestern.edu"
+  scholar = "https://scholar.google.com/citations?hl=en&user=ZuazMDwAAAAJ"
+  bluesky = "https://bsky.app/profile/claydav.is"
   
 [params.colors]
   primary = "#2D6F59"
@@ -17,6 +22,10 @@ title = 'Clay Davis'
   gray = "#f3f3f3"
   text = "#000000"
   text_secondary = "#333333"
+
+[params.widgets]
+  bluesky_handle = "claydav.is"
+  goodreads_user_id = "31220050"
 
 [markup]
   [markup.goldmark]
@@ -32,30 +41,25 @@ title = 'Clay Davis'
 [menu]
   [[menu.main]]
     name = "About"
-    url = "/"
     pageRef = "/"
     weight = 10
-  
+
   [[menu.main]]
     name = "Research"
-    url = "/research/"
     pageRef = "/research"
     weight = 20
-  
+
   [[menu.main]]
     name = "CV"
-    url = "/cv/"
     pageRef = "/cv"
     weight = 30
-    
+
   [[menu.main]]
     name = "Teaching"
-    url = "/teaching/"
     pageRef = "/teaching"
     weight = 40
-    
+
   [[menu.main]]
     name = "Meet with me"
-    url = "/meetwithme/officehours/"
     pageRef = "/meetwithme/officehours"
     weight = 50

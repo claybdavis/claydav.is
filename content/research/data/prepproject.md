@@ -4,11 +4,11 @@ description:
 date: 2023-01-01
 cover_image: "data/pnr_rural_map.png"
 author: "Clay Davis and Christine Percheski"
-landscape: 1
+landscape: true
 ---
 ### Poster presented at the Interdisciplinary Association for Public Health Science Conference in 2023
 
-{{< embed "Percheski&Davis_IAPHS.pdf" >}}
+{{< embed "Percheski-Davis_IAPHS.pdf" >}}
 
 ### Interactive map of PnR in rural county sets
 

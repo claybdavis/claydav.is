@@ -4,8 +4,8 @@ date: 2022-06-27
 journal: "Annual Review of Law and Social Science"
 volume: 18
 issue:
-page start: 1
-page end: 26
+page_start: 1
+page_end: 26
 author: "Carol Heimer and Clay Davis"
 cover_image: "publications/annualreview_cover.png"
 first_page_image:

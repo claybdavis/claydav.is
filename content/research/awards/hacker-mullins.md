@@ -4,5 +4,5 @@ organization: "American Sociological Association Section on Science Knowledge an
 date: 2024-08-12
 description: "Award for 2023 Social Studies of Science paper"
 cover_image: "awards/SKAT-hackermullins.jpg"
-landscape: 1
+landscape: true
 ---

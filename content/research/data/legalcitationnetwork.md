@@ -4,7 +4,7 @@ description:
 date: 2024-10-01
 cover_image: "data/citationnetwork.png"
 author: "Clay Davis"
-landscape: 1
+landscape: true
 ---
 ### Network of citations between US federal district court cases at which judges evaluated meta-analyses
 

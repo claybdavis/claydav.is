@@ -10,7 +10,7 @@ author: "Clay Davis"
 cover_image: "publications/NULR_cover.png"
 first_page_image:
 external_url: "https://blog.northwesternlaw.review/?p=2040"
-landscape: 1
+landscape: true
 ---
 
 ## Abstract:

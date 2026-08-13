@@ -3,12 +3,7 @@
      Finds the evaluations section among the page's subsections and renders a carousel */}}
 
 <section class="evaluations-section">
-    {{ $evaluationsSection := "" }}
-    {{ range .Sections }}
-        {{ if in .File.Dir "evaluations" }}
-            {{ $evaluationsSection = . }}
-        {{ end }}
-    {{ end }}
+    {{ $evaluationsSection := .GetPage "student-evaluations" }}
     {{ if $evaluationsSection }}
     {{ with $evaluationsSection }}
     <header class="page-header">

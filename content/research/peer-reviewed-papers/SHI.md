@@ -4,8 +4,8 @@ date: 2025-09-30
 journal: "Sociology of Health & Illness"
 volume: 47
 issue: 8
-page start:
-page end:
+page_start:
+page_end:
 author: "Clay Davis"
 cover_image: "publications/shi_cover.png"
 first_page_image:

@@ -126,20 +126,3 @@ a.content-item:focus {
   min-height: 0;
 }
 
-/* ==========================================================================
-   Mobile Summary (replaces full .section-content on small screens)
-   ========================================================================== */
-
-.mobile-summary {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  .mobile-summary {
-    display: block;
-  }
-
-  .content-layout .section-content {
-    display: none;
-  }
-}

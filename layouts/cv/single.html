@@ -1,14 +1,14 @@
 {{ define "main" }}
-{{ $pdfFound := false }}
-{{ $pdfPath := "" }}
-{{ with os.ReadDir "static" }}
-    {{ range . }}
-        {{ if and (not $pdfFound) (hasPrefix .Name "Davis_CV") (hasSuffix .Name ".pdf") }}
-            {{ $pdfFound = true }}
-            {{ $pdfPath = .Name }}
-        {{ end }}
-    {{ end }}
+{{/* Serve whatever single PDF lives in static/cv/. If more than one is present,
+     take the alphabetically-first so the build stays deterministic. */}}
+{{ $pdfs := slice }}
+{{ range (os.ReadDir "static/cv") }}
+    {{ if hasSuffix .Name ".pdf" }}{{ $pdfs = $pdfs | append .Name }}{{ end }}
 {{ end }}
+{{ $pdfFound := gt (len $pdfs) 0 }}
+{{ $pdfPath := "" }}
+{{ if $pdfFound }}{{ $pdfPath = path.Join "cv" (index (sort $pdfs) 0) }}{{ end }}
+{{ if gt (len $pdfs) 1 }}{{ warnf "static/cv/ holds %d PDFs; serving %q — delete the stale ones" (len $pdfs) $pdfPath }}{{ end }}
 
 <article class="page-content">
     <header class="page-header">
@@ -19,7 +19,7 @@
         {{ end }}
         <h1>{{ .Title }}</h1>
         <h2 class="cv-header-desktop"><a href="{{ $pdfPath | relURL }}" download class="cv-download-link">Download</a> my most recent CV <a href="{{ $pdfPath | relURL }}" download class="cv-download-link">↓</a></h2>
-        <h2 class="cv-header-mobile"><a href="{{ $pdfPath | relURL }}" download class="cv-download-link">View my most recent CV in a new tab</a> <a href="{{ $pdfPath | relURL }}" download class="cv-download-link">↗</a></h2>
+        <h2 class="cv-header-mobile"><a href="{{ $pdfPath | relURL }}" target="_blank" rel="noopener" class="cv-download-link">View my most recent CV in a new tab</a> <a href="{{ $pdfPath | relURL }}" target="_blank" rel="noopener" class="cv-download-link">↗</a></h2>
     </header>
 
     {{ if $pdfFound }}

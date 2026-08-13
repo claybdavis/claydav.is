@@ -178,6 +178,25 @@ section {
 }
 
 /* ==========================================================================
+   Embedded Media (PDF / visualization iframes)
+   ========================================================================== */
+
+.pdf-container,
+.visualization-container {
+  inline-size: 100%;
+  block-size: 80vh;
+  min-block-size: 600px;
+  max-block-size: min(90vh, 900px);
+}
+
+.pdf-container iframe,
+.visualization-container iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  border: none;
+}
+
+/* ==========================================================================
    Typography - Headings
    ========================================================================== */
 

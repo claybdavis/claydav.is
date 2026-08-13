@@ -89,17 +89,7 @@
         
         {{ if not .IsHome }}
         <footer class="footer">
-            <nav class="contact-icons" aria-label="Contact information">
-                <a href="mailto:cdavis@u.northwestern.edu" class="contact-link" aria-label="Email">
-                    {{ readFile "static/icons/email.svg" | safeHTML }}
-                </a>
-                <a href="https://scholar.google.com/citations?hl=en&user=ZuazMDwAAAAJ" class="contact-link" aria-label="Google Scholar">
-                    {{ readFile "static/icons/google-scholar.svg" | safeHTML }}
-                </a>
-                <a href="https://bsky.app/profile/claydav.is" class="contact-link" aria-label="Bluesky">
-                    {{ readFile "static/icons/bluesky.svg" | safeHTML }}
-                </a>
-            </nav>
+            {{ partial "contact-icons.html" . }}
         </footer>
         {{ end }}
     </div>

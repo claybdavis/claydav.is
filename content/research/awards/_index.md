@@ -6,7 +6,6 @@ build:
   render: never
   list: local
 cascade:
-  non_clickable: true
   build:
     render: never
     list: local
