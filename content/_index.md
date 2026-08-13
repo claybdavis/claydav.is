@@ -1,14 +1,14 @@
 ---
 title: "About Me"
-description: "PhD Candidate in Sociology and Mellon Cluster Fellow in Science Studies at Northwestern University"
+description: "Mellon Postdoctoral Fellow in the Department of Science & Technology Studies and Society for the Humanities at Cornell University"
 hide_home_widgets: true
 bluesky_username: "claydav.is"
 goodreads_username: "claydavis"
 ---
-I am a PhD Candidate in Sociology and Mellon Cluster Fellow in science studies at [Northwestern University](https://sociology.northwestern.edu/people/graduate-students/profiles/clay-davis.html). My research is concerned with the tensions between democracy and expertise.
+I am a Mellon Postdoctoral Fellow in the Department of Science & Technology Studies and the Society for the Humanities at Cornell University. When my fellowship at Cornell ends in July 2028, I will start as Assistant Professor of Sociology at the University of Calgary. I received my PhD in sociology from Northwestern University in 2026.
 
-In my dissertation, I study how the statistical tool of meta-analysis shapes contentious policy debates. My empirical cases include surgery (the subject of my recent paper in [*Sociology of Health & Illness*](/research/peer-reviewed-papers/shi/)), global health, and the US federal courts. I argue that actors in these domains use meta-analysis to transform social conflicts into statistical ones, enacting what I call "*p*-value politics."
+My interests lie in the tensions between democracy and expertise. I am currently writing a book about how meta-analysts intervene in expert conflicts. My empirical cases are the domains of surgery (the subject of my recent paper in [*Sociology of Health & Illness*](/research/peer-reviewed-papers/shi/)), global health, and the US federal courts. I argue that across these cases, meta-analysts serve as "epistemic police," leveraging a kind of critical authority that positions them well in a world where experts are increasingly distrusted.
 
-My earlier work focused on clashes between health social movements and biomedical experts. In my [2023 *Social Studies of Science* paper](/research/peer-reviewed-papers/3s2/), I introduce the concept of the "routinization" of lay expertise to explain how a group of biohackers came to collaborate with the credentialed experts whom they once rebuked. And in my [2020 *Social Studies of Science* paper](/research/peer-reviewed-papers/3s1/), I demonstrate how contemporary HIV/AIDS activists challenged epidemiologists' definition of being "at risk" for HIV.
+In my earlier work, I focused on clashes between health social movements and biomedical experts. My [2023 *Social Studies of Science* paper](/research/peer-reviewed-papers/3s2/), introduces the concept of the "routinization" of lay expertise to explain the efficacy of a group of biohackers, and my [2020 *Social Studies of Science* paper](/research/peer-reviewed-papers/3s1/) demonstrates how HIV/AIDS activists have pivoted in the PrEP era.
 
-My research is funded by the National Science Foundation and Northwestern's [Buffett Institute for Global Affairs](https://buffett.northwestern.edu/programs/graduate-opportunities/graduate-fellowships/dissertation-fellowship-program/cohort/). I was recently interviewed by Northwestern's [*TGS Spotlight*](https://www.tgs.northwestern.edu/about/our-people/spotlight/clay-davis-hehim.html).
+My research has been funded by the National Science Foundation [and others](/cv).
